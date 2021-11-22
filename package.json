@@ -15,7 +15,12 @@
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "typescript": "^4.5.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "@cosmjs/cosmwasm-stargate": "^0.26.4",
+    "@cosmjs/stargate": "^0.26.4",
+    "@cosmjs/proto-signing": "^0.26.4",
+    "@cosmjs/faucet-client": "^0.26.4",
+    "@cosmjs/math": "^0.26.4"
   },
   "scripts": {
     "start": "craco start",
