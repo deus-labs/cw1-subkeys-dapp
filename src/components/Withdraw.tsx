@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useCW1Contract, SendMsg } from "src/services/contracts"
 import { useSdk } from "src/services/wallet"
 import { Coin, coin } from "@cosmjs/amino"
+import toast from "../utils/toast"
 
 const Withdraw = (): JSX.Element => {
   const contract = useCW1Contract()
@@ -14,9 +15,14 @@ const Withdraw = (): JSX.Element => {
     const getAllowance = async (): Promise<void> => {
       if (!contract) return
 
-      const response = await contract.allowance(sdk.address)
-
-      if (response.balance[0]) setAllowance(response.balance[0])
+      contract
+        .allowance(sdk.address)
+        .then((data) => {
+          if (data.balance[0]) setAllowance(data.balance[0])
+        })
+        .catch((err) => {
+          toast.error(err.message)
+        })
     }
 
     getAllowance()
@@ -40,7 +46,7 @@ const Withdraw = (): JSX.Element => {
         console.log(data)
       })
       .catch((err) => {
-        console.log(err)
+        toast.error(err.message)
       })
   }
 
@@ -51,7 +57,7 @@ const Withdraw = (): JSX.Element => {
       <div>
         Your balance: {`${sdk.balance[0].amount} ${sdk.balance[0].denom}`}
       </div>
-      <div>Withdraw amount: {`${allowance.amount} ${allowance.denom}`}</div>
+      <div>Available allowance: {`${allowance.amount} ${allowance.denom}`}</div>
       <input
         className="bg-purple-300"
         type="number"
