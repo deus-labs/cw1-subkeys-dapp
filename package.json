@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cosmjs/cosmwasm-stargate": "^0.26.4",
+    "@cosmjs/math": "^0.26.4",
+    "@cosmjs/proto-signing": "^0.26.4",
+    "@cosmjs/stargate": "^0.26.4",
     "@craco/craco": "^6.4.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -13,14 +17,10 @@
     "@types/react-dom": "^17.0.11",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "typescript": "^4.5.2",
-    "web-vitals": "^1.0.1",
-    "@cosmjs/cosmwasm-stargate": "^0.26.4",
-    "@cosmjs/stargate": "^0.26.4",
-    "@cosmjs/proto-signing": "^0.26.4",
-    "@cosmjs/faucet-client": "^0.26.4",
-    "@cosmjs/math": "^0.26.4"
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "craco start",
@@ -47,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-router-dom": "^5.3.2",
     "autoprefixer": "^9",
     "postcss": "^7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"

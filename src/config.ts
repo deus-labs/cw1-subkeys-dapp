@@ -11,7 +11,14 @@ export interface AppConfig {
   readonly stakingToken: string
   readonly coinMap: CoinMap
   readonly gasPrice: number
+  readonly fees: FeeOptions
   readonly codeId?: number
+}
+
+export interface FeeOptions {
+  upload: number
+  exec: number
+  init: number
 }
 
 export interface KeplrCoin {
@@ -58,6 +65,11 @@ export const config: AppConfig = {
     ujunox: { denom: "JUNOX", fractionalDigits: 6 },
   },
   gasPrice: 0.025,
+  fees: {
+    upload: 1500000,
+    init: 500000,
+    exec: 200000,
+  },
 }
 
 export const keplrConfig: KeplrConfig = {
@@ -104,4 +116,12 @@ export const keplrConfig: KeplrConfig = {
   },
   bip44: { coinType: 118 },
   coinType: 118,
+}
+
+export interface ContractProps {
+  address: string
+}
+
+export const contract: ContractProps = {
+  address: "juno1uv9z4d6r87mk58vc9px94wshwk2d6eczec2qd5g42ryk59azgqeqdhglhs",
 }
