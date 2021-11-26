@@ -41,13 +41,18 @@ function promise(
   callback: any,
   pendingMessage: string,
   successMessage: string,
-  errorMessage: string
+  errorMessage: string,
+  duration = 3000
 ) {
-  Toast.promise(callback, {
-    pending: pendingMessage,
-    success: successMessage,
-    error: errorMessage,
-  })
+  Toast.promise(
+    callback,
+    {
+      pending: pendingMessage,
+      success: successMessage,
+      error: errorMessage,
+    },
+    { ...config, autoClose: duration }
+  )
 }
 
 const toast = {

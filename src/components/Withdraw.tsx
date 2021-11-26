@@ -34,24 +34,32 @@ const Withdraw = (): JSX.Element => {
 
   const withdrawOnClick = () => {
     if (!contract) return
-    const message: SendMsg = {
-      bank: {
-        send: {
-          from_address: contract.contractAddress,
-          to_address: sdk.address,
-          amount: [coin(parseInt(withdrawAmount), sdk.balance[0].denom)],
-        },
-      },
-    }
 
-    contract
-      .execute(sdk.address, [message])
-      .then((data) => {
-        console.log(data)
-      })
-      .catch((err) => {
-        toast.error(err.message)
-      })
+    toast.promise(
+      new Promise((resolve, reject) => {
+        const message: SendMsg = {
+          bank: {
+            send: {
+              from_address: contract.contractAddress,
+              to_address: sdk.address,
+              amount: [coin(parseInt(withdrawAmount), sdk.balance[0].denom)],
+            },
+          },
+        }
+
+        contract
+          .execute(sdk.address, [message])
+          .then((data) => {
+            resolve(data)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      }),
+      "Transaction pending",
+      "Transaction successfull",
+      "Transaction failed"
+    )
   }
 
   if (!contract) return <></>
