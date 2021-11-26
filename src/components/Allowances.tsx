@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
+import { useHistory } from "react-router"
+import { operationPath } from "src/routes"
 import { useCW1Contract, AllowanceInfo } from "src/services/contracts"
 
 const Allowances = (): JSX.Element => {
   const contract = useCW1Contract()
+  const history = useHistory()
 
   const [allowances, setAllowances] = useState<readonly AllowanceInfo[]>([])
 
@@ -43,6 +46,12 @@ const Allowances = (): JSX.Element => {
         <div className="font-normal">{contract.contractAddress}</div>
       </div>
       {allowances.map((allowance) => renderAllowance(allowance))}
+      <button
+        className="bg-gray-600 p-3 rounded-lg text-white font-bold mt-10"
+        onClick={() => history.push(operationPath)}
+      >
+        Main Page
+      </button>
     </div>
   )
 }

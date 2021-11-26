@@ -65,6 +65,8 @@ export function SdkProvider({ children }: any): JSX.Element {
       const coin = await client.getBalance(address, denom)
       if (coin) balance.push(coin)
     }
+
+    setValue({ ...value, balance })
   }
 
   useEffect(() => {

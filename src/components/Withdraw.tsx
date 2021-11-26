@@ -4,23 +4,27 @@ import { useSdk } from "src/services/wallet"
 import { Coin, coin } from "@cosmjs/amino"
 import toast from "../utils/toast"
 import { config } from "src/config"
+import { operationPath } from "src/routes"
+import { useHistory } from "react-router"
 
 const Withdraw = (): JSX.Element => {
   const contract = useCW1Contract()
-  const sdk = useSdk()
+  const { address, balance, refreshBalance } = useSdk()
+  const history = useHistory()
 
   const [allowance, setAllowance] = useState<Coin>({
     amount: "0",
     denom: config.feeToken,
   })
   const [withdrawAmount, setWithdrawAmount] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     const getAllowance = async (): Promise<void> => {
       if (!contract) return
 
       contract
-        .allowance(sdk.address)
+        .allowance(address)
         .then((data) => {
           if (data.balance[0]) setAllowance(data.balance[0])
         })
@@ -30,10 +34,12 @@ const Withdraw = (): JSX.Element => {
     }
 
     getAllowance()
-  }, [contract, sdk.address])
+  }, [contract, address])
 
   const withdrawOnClick = () => {
     if (!contract) return
+
+    setLoading(true)
 
     toast.promise(
       new Promise((resolve, reject) => {
@@ -41,18 +47,22 @@ const Withdraw = (): JSX.Element => {
           bank: {
             send: {
               from_address: contract.contractAddress,
-              to_address: sdk.address,
-              amount: [coin(parseInt(withdrawAmount), sdk.balance[0].denom)],
+              to_address: address,
+              amount: [coin(parseInt(withdrawAmount), balance[0].denom)],
             },
           },
         }
 
         contract
-          .execute(sdk.address, [message])
+          .execute(address, [message])
           .then((data) => {
+            refreshBalance()
+            setLoading(false)
             resolve(data)
           })
           .catch((err) => {
+            refreshBalance()
+            setLoading(false)
             reject(err)
           })
       }),
@@ -66,9 +76,9 @@ const Withdraw = (): JSX.Element => {
 
   return (
     <div className="flex flex-col">
-      <div>
-        Your balance: {`${sdk.balance[0].amount} ${sdk.balance[0].denom}`}
-      </div>
+      {balance && balance[0] && (
+        <div>Your balance: {`${balance[0].amount} ${balance[0].denom}`}</div>
+      )}
       <div>Available allowance: {`${allowance.amount} ${allowance.denom}`}</div>
       <input
         className="bg-purple-300"
@@ -79,8 +89,16 @@ const Withdraw = (): JSX.Element => {
       <button
         className="bg-green-500 p-3 rounded-lg text-white font-bold mt-5"
         onClick={withdrawOnClick}
+        disabled={loading}
       >
         Withdraw
+      </button>
+      <button
+        className="bg-gray-600 p-3 rounded-lg text-white font-bold mt-5"
+        onClick={() => history.push(operationPath)}
+        disabled={loading}
+      >
+        Main Page
       </button>
     </div>
   )
