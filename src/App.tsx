@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import { SdkProvider } from "./services/wallet"
 import PageLayout from "./layout/page"
-import { allowancesPath, operationPath } from "./routes"
+import { allowancesPath, operationPath, withdrawPath } from "./routes"
 import { ProtectedSwitch } from "./routes/ProtectedSwitch"
 import Login from "./components/Login"
 import Operations from "./components/Operations"
 import Allowances from "./components/Allowances"
+import Withdraw from "./components/Withdraw"
 
 const App = (): JSX.Element => {
   return (
@@ -17,8 +18,8 @@ const App = (): JSX.Element => {
             <ProtectedSwitch>
               <Route exact path={operationPath} component={Operations} />
               <Route exact path={allowancesPath} component={Allowances} />
+              <Route exact path={withdrawPath} component={Withdraw} />
             </ProtectedSwitch>
-            <Login />
           </Switch>
         </Router>
       </PageLayout>

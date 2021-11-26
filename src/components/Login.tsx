@@ -3,13 +3,11 @@ import { WalletLoader, loadKeplrWallet } from "../services/sdk"
 import { CosmWasmContext } from "../services/wallet"
 import { config, keplrConfig } from "../config"
 import { useHistory } from "react-router-dom"
-import { RedirectLocation } from "src/routes/ProtectedSwitch"
 import { operationPath } from "src/routes"
 
 const Login = (): JSX.Element => {
   const sdk = useContext(CosmWasmContext)
   const history = useHistory()
-  const state = history.location.state as RedirectLocation
 
   const [initializing, setInitializing] = useState(true)
 
@@ -46,14 +44,10 @@ const Login = (): JSX.Element => {
   useEffect(() => {
     if (!sdk.initialized) return
 
-    if (state) {
-      history.push(state.redirectPathname, state.redirectState)
-    } else {
-      history.push(operationPath)
-    }
+    history.push(operationPath)
 
     setInitializing(false)
-  }, [sdk.initialized, state, history])
+  }, [sdk.initialized, history])
 
   return initializing ? (
     <div>Loading</div>

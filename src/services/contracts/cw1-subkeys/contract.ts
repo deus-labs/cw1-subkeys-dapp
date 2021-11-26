@@ -40,7 +40,7 @@ export interface AllowanceInfo {
 }
 
 export interface AllAllowancesResponse {
-  readonly allowances: AllowanceInfo[]
+  readonly allowances: readonly AllowanceInfo[]
 }
 
 interface AdminListResponse {
@@ -55,7 +55,7 @@ type CosmosMsg =
   | RedelegateMsg
   | WithdrawMsg
 
-interface SendMsg {
+export interface SendMsg {
   readonly bank: {
     readonly send: {
       readonly from_address: string

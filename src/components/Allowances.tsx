@@ -4,7 +4,7 @@ import { useCW1Contract, AllowanceInfo } from "src/services/contracts"
 const Allowances = (): JSX.Element => {
   const contract = useCW1Contract()
 
-  const [allowances, setAllowances] = useState<AllowanceInfo[]>([])
+  const [allowances, setAllowances] = useState<readonly AllowanceInfo[]>([])
 
   useEffect(() => {
     const getAllowances = async (): Promise<void> => {
