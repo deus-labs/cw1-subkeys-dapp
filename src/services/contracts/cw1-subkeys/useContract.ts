@@ -1,3 +1,4 @@
+import { GasPrice } from "@cosmjs/stargate"
 import { useEffect, useState } from "react"
 import { config, contract } from "src/config"
 import { useSdk } from "../../wallet"
@@ -12,7 +13,7 @@ export function useCW1Contract(): CW1Instance | undefined {
     const getCW1Instance = async () => {
       const contractConfig = {
         fees: config.fees,
-        gasPrice: config.gasPrice.toString(),
+        gasPrice: GasPrice.fromString(`${config.gasPrice}${config.feeToken}`),
       }
 
       const cw1Contract = CW1Init(sdk.getClient(), contractConfig).use(

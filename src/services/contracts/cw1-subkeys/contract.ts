@@ -2,10 +2,11 @@ import { Coin } from "@cosmjs/amino"
 import { calculateFee } from "@cosmjs/stargate"
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate"
 import { FeeOptions } from "../../../config"
+import { GasPrice } from "@cosmjs/stargate"
 
 interface ExecuteFeeOptions {
   fees: FeeOptions
-  gasPrice: string
+  gasPrice: GasPrice
 }
 
 type Expiration =

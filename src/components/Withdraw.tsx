@@ -3,12 +3,16 @@ import { useCW1Contract, SendMsg } from "src/services/contracts"
 import { useSdk } from "src/services/wallet"
 import { Coin, coin } from "@cosmjs/amino"
 import toast from "../utils/toast"
+import { config } from "src/config"
 
 const Withdraw = (): JSX.Element => {
   const contract = useCW1Contract()
   const sdk = useSdk()
 
-  const [allowance, setAllowance] = useState<Coin>({ amount: "0", denom: "" })
+  const [allowance, setAllowance] = useState<Coin>({
+    amount: "0",
+    denom: config.feeToken,
+  })
   const [withdrawAmount, setWithdrawAmount] = useState<string>("")
 
   useEffect(() => {
