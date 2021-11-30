@@ -1,12 +1,10 @@
-import Navbar from "src/components/Navbar"
+import Sidebar from "src/components/Sidebar"
 
 const PageLayout = ({ children }: any): JSX.Element => {
   return (
-    <div>
-      <Navbar />
-      {children}
-      <div className="flex h-screen p-20 bg-gray-200">
-        <div className="bg-white w-screen rounded-lg shadow-2xl flex items-center justify-center"></div>
+    <div className="flex flex-col max-h-screen h-screen">
+      <div className="flex-grow">
+        <Sidebar content={children} />
       </div>
     </div>
   )

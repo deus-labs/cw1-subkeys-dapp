@@ -20,7 +20,7 @@ const Operations = (): JSX.Element => {
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center h-screen">
       <div>Your address: {`${address}`}</div>
       <div>Your balance: {`${balance[0].amount} ${balance[0].denom}`}</div>
       <button className="btn btn-wide bg-blue-500" onClick={allowancesOnClick}>

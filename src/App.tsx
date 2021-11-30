@@ -18,9 +18,9 @@ const App = (): JSX.Element => {
           <Switch>
             <Route exact path="/" component={Welcome} />
             <ProtectedSwitch>
-              <Route exact path={operationPath} component={Operations} />
-              <Route exact path={allowancesPath} component={Allowances} />
-              <Route exact path={withdrawPath} component={Withdraw} />
+              <Route exact path={`/${operationPath}`} component={Operations} />
+              <Route exact path={`/${allowancesPath}`} component={Allowances} />
+              <Route exact path={`/${withdrawPath}`} component={Withdraw} />
             </ProtectedSwitch>
           </Switch>
         </PageLayout>
