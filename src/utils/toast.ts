@@ -9,35 +9,35 @@ const config: ToastOptions = {
   position: "top-center",
 }
 
-function info(message: string, duration = 3000) {
+export function infoToast(message: string, duration = 3000) {
   Toast.info(message, {
     ...config,
     autoClose: duration,
   })
 }
 
-function warn(message: string, duration = 3000) {
+export function warnToast(message: string, duration = 3000) {
   Toast.warn(message, {
     ...config,
     autoClose: duration,
   })
 }
 
-function success(message: string, duration = 3000) {
+export function successToast(message: string, duration = 3000) {
   Toast.success(message, {
     ...config,
     autoClose: duration,
   })
 }
 
-function error(message: string, duration = 3000) {
+export function errorToast(message: string, duration = 3000) {
   Toast.error(message, {
     ...config,
     autoClose: duration,
   })
 }
 
-function promise(
+export function promiseToast(
   callback: any,
   pendingMessage: string,
   successMessage: string,
@@ -54,13 +54,3 @@ function promise(
     { ...config, autoClose: duration }
   )
 }
-
-const toast = {
-  info,
-  success,
-  warn,
-  error,
-  promise,
-}
-
-export default toast

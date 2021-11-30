@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react"
-import { useCW1Contract, SendMsg } from "src/services/contracts"
-import { useSdk } from "src/services/wallet"
+import { useCW1Contract, SendMsg } from "src/contracts"
+import { useWallet } from "src/services/wallet"
 import { Coin, coin } from "@cosmjs/amino"
-import toast from "../utils/toast"
+import { errorToast, promiseToast } from "../utils"
 import { config } from "src/config"
 import { operationPath } from "src/routes"
 import { useHistory } from "react-router"
 
 const Withdraw = (): JSX.Element => {
   const contract = useCW1Contract()
-  const { address, balance, refreshBalance } = useSdk()
+  const { address, balance, refreshBalance } = useWallet()
   const history = useHistory()
 
   const [allowance, setAllowance] = useState<Coin>({
@@ -29,7 +29,7 @@ const Withdraw = (): JSX.Element => {
           if (data.balance[0]) setAllowance(data.balance[0])
         })
         .catch((err) => {
-          toast.error(err.message)
+          errorToast(err.message)
         })
     }
 
@@ -41,7 +41,7 @@ const Withdraw = (): JSX.Element => {
 
     setLoading(true)
 
-    toast.promise(
+    promiseToast(
       new Promise((resolve, reject) => {
         const message: SendMsg = {
           bank: {

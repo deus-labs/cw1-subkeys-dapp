@@ -1,6 +1,6 @@
 import React from "react"
 import { Redirect, Switch, SwitchProps } from "react-router-dom"
-import { useSdk } from "../services/wallet"
+import { useWallet } from "../services/wallet"
 
 export interface RedirectLocation {
   readonly redirectPathname: string
@@ -15,7 +15,7 @@ export function ProtectedSwitch({
   location,
   children,
 }: ProtectedSwitchProps): JSX.Element {
-  const { initialized } = useSdk()
+  const { initialized } = useWallet()
 
   return initialized ? (
     <Switch location={location}>{children}</Switch>

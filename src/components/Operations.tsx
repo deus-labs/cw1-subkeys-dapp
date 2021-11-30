@@ -1,15 +1,14 @@
-import { useContext } from "react"
 import { useHistory } from "react-router"
 import { allowancesPath, withdrawPath } from "src/routes"
-import { CosmWasmContext } from "../services/wallet"
+import { useWallet } from "../services/wallet"
 
 const Operations = (): JSX.Element => {
-  const sdk = useContext(CosmWasmContext)
+  const { clear, address, balance } = useWallet()
   const history = useHistory()
 
   const disconnectWallet = () => {
     localStorage.clear()
-    sdk.clear()
+    clear()
   }
 
   const allowancesOnClick = () => {
@@ -22,10 +21,8 @@ const Operations = (): JSX.Element => {
 
   return (
     <div className="flex flex-col items-center">
-      <div>Your address: {`${sdk.address}`}</div>
-      <div>
-        Your balance: {`${sdk.balance[0].amount} ${sdk.balance[0].denom}`}
-      </div>
+      <div>Your address: {`${address}`}</div>
+      <div>Your balance: {`${balance[0].amount} ${balance[0].denom}`}</div>
       <button className="btn btn-wide bg-blue-500" onClick={allowancesOnClick}>
         View Allowances
       </button>

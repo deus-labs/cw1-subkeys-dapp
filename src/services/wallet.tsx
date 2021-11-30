@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useEffect, useState } from "react"
-import { AppConfig, config } from "../config"
+import { config } from "../config"
 import { createClient } from "./sdk"
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate"
 import { Coin } from "@cosmjs/stargate"
@@ -10,7 +10,6 @@ interface CosmWasmContextType {
   readonly initialized: boolean
   readonly init: (signer: OfflineSigner) => void
   readonly clear: () => void
-  readonly config: Partial<AppConfig>
   readonly address: string
   readonly balance: readonly Coin[]
   readonly refreshBalance: () => Promise<void>
@@ -26,7 +25,6 @@ const defaultContext: CosmWasmContextType = {
   initialized: false,
   init: throwNotInitialized,
   clear: throwNotInitialized,
-  config: {},
   address: "",
   balance: [],
   refreshBalance: throwNotInitialized,
@@ -37,7 +35,7 @@ const defaultContext: CosmWasmContextType = {
 export const CosmWasmContext =
   React.createContext<CosmWasmContextType>(defaultContext)
 
-export const useSdk = (): CosmWasmContextType =>
+export const useWallet = (): CosmWasmContextType =>
   React.useContext(CosmWasmContext)
 
 export function SdkProvider({ children }: any): JSX.Element {
@@ -73,7 +71,7 @@ export function SdkProvider({ children }: any): JSX.Element {
     if (!signer) return
     ;(async function updateClient(): Promise<void> {
       try {
-        const client = await createClient(config, signer)
+        const client = await createClient(signer)
         setClient(client)
       } catch (error) {
         console.log(error)
@@ -97,7 +95,6 @@ export function SdkProvider({ children }: any): JSX.Element {
         initialized: true,
         init: () => {},
         clear,
-        config,
         address,
         balance,
         refreshBalance: refreshBalance.bind(null, address, balance),

@@ -1,7 +1,7 @@
 import { Coin } from "@cosmjs/amino"
 import { calculateFee } from "@cosmjs/stargate"
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate"
-import { FeeOptions } from "../../../config"
+import { FeeOptions } from "src/config"
 import { GasPrice } from "@cosmjs/stargate"
 
 interface ExecuteFeeOptions {
