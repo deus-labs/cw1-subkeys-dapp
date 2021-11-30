@@ -38,7 +38,7 @@ export const CosmWasmContext =
 export const useWallet = (): CosmWasmContextType =>
   React.useContext(CosmWasmContext)
 
-export function SdkProvider({ children }: any): JSX.Element {
+export function WalletProvider({ children }: any): JSX.Element {
   const [signer, setSigner] = useState<OfflineSigner>()
   const [client, setClient] = useState<SigningCosmWasmClient>()
 

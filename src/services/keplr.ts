@@ -27,6 +27,7 @@ export function useKeplr() {
     const loadKeplrWallet = async (): Promise<OfflineSigner> => {
       const anyWindow: any = window
       if (!anyWindow.getOfflineSigner) {
+        setInitializing(false)
         throw new Error("Keplr extension is not available")
       }
 

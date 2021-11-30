@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
-import { SdkProvider } from "./services/wallet"
+import { WalletProvider } from "./services/wallet"
 import PageLayout from "./layout/page"
 import { allowancesPath, operationPath, withdrawPath } from "./routes"
 import { ProtectedSwitch } from "./routes/ProtectedSwitch"
@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css"
 
 const App = (): JSX.Element => {
   return (
-    <SdkProvider>
+    <WalletProvider>
       <Router basename={process.env.PUBLIC_URL}>
         <PageLayout>
           <Switch>
@@ -25,8 +25,8 @@ const App = (): JSX.Element => {
           </Switch>
         </PageLayout>
       </Router>
-      <ToastContainer />
-    </SdkProvider>
+      <ToastContainer theme="dark" />
+    </WalletProvider>
   )
 }
 

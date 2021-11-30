@@ -9,12 +9,11 @@ import { useKeplr } from "src/services/keplr"
 import { useWallet } from "src/services/wallet"
 import { Link } from "react-router-dom"
 import Navbar from "./Navbar"
+import { FaPlay, FaMicrochip, FaSolarPanel, FaCentos } from "react-icons/fa"
 
 interface SidebarProps {
   content: JSX.Element
 }
-
-const ITEMS = [operationPath, instentiatePath, executePath, queryPath]
 
 const Sidebar = ({ content }: SidebarProps): JSX.Element => {
   const { initialized } = useWallet()
@@ -33,33 +32,44 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
     else connect()
   }
 
-  const renderList = (): JSX.Element[] => {
-    return ITEMS.map((item) => {
-      return (
-        <li key={item}>
-          <Link className="capitalize font-bold" to={`/${item}`}>
-            {item}
-          </Link>
-        </li>
-      )
-    })
-  }
-
   return (
-    <div className="shadow bg-base-200 drawer drawer-mobile h-full w-screen">
-      <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+    <div className="shadow bg-deus-dark drawer drawer-mobile h-full w-screen">
+      <input id="sidebar" type="checkbox" className="drawer-toggle" />
       <div className="flex flex-col drawer-content">
         <Navbar />
         {content}
       </div>
       <div className="drawer-side">
-        <label htmlFor="my-drawer" className="drawer-overlay"></label>
-        <ul className="menu p-4 overflow-y-auto w-48 border-r-2 border-gray-100 text-base-content">
-          {renderList()}
+        <label htmlFor="sidebar" className="drawer-overlay"></label>
+        <ul className="menu p-4 overflow-y-auto w-60 bg-deus-gray">
+          <li>
+            <Link className="capitalize font-bold" to={`/${operationPath}`}>
+              <FaCentos className="mr-4" />
+              {operationPath}
+            </Link>
+          </li>
+          <li>
+            <Link className="capitalize font-bold" to={`/${instentiatePath}`}>
+              <FaPlay className="mr-4" />
+              {instentiatePath}
+            </Link>
+          </li>
+          <li>
+            <Link className="capitalize font-bold" to={`/${executePath}`}>
+              <FaMicrochip className="mr-4" />
+              {executePath}
+            </Link>
+          </li>
+          <li>
+            <Link className="capitalize font-bold" to={`/${queryPath}`}>
+              <FaSolarPanel className="mr-4" />
+              {queryPath}
+            </Link>
+          </li>
           <li className="h-full justify-end">
             <button
               onClick={buttonOnClick}
-              className={`btn btn-error mx-5 ${
+              className={`btn bg-gradient-to-r from-deus-pink to-deus-purple hover:opacity-80 mx-5 ${
                 keplr.initializing ? "loading" : ""
               }`}
             >
