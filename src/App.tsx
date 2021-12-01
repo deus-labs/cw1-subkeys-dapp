@@ -7,6 +7,7 @@ import {
   executePath,
   instantiatePath,
   operationPath,
+  queryPath,
   withdrawPath,
 } from "./routes"
 import { ProtectedSwitch } from "./routes/ProtectedSwitch"
@@ -16,6 +17,7 @@ import Withdraw from "./components/Withdraw"
 import Welcome from "./pages/Welcome"
 import Instantiate from "./pages/Instantiate"
 import Execute from "./pages/Execute"
+import Query from "./pages/Query"
 import "react-toastify/dist/ReactToastify.css"
 
 const App = (): JSX.Element => {
@@ -33,6 +35,7 @@ const App = (): JSX.Element => {
                 component={Instantiate}
               />
               <Route exact path={`/${executePath}`} component={Execute} />
+              <Route exact path={`/${queryPath}`} component={Query} />
               <Route exact path={`/${allowancesPath}`} component={Allowances} />
               <Route exact path={`/${withdrawPath}`} component={Withdraw} />
             </ProtectedSwitch>
