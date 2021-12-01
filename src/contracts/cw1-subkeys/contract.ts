@@ -15,7 +15,7 @@ type Expiration =
   | { never: {} }
 
 export interface CanExecuteResponse {
-  readonly canExecute: boolean
+  readonly can_execute: boolean
 }
 
 interface Permissions {

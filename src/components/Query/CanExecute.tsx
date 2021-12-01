@@ -4,6 +4,9 @@ import {
   CanExecuteResponse,
   SendMsg,
   DelegateMsg,
+  UndelegateMsg,
+  RedelegateMsg,
+  // WithdrawMsg,
 } from "src/contracts"
 import { contract as contractConfig } from "src/config"
 import { errorToast } from "src/utils"
@@ -19,6 +22,7 @@ const AllAllowances = (): JSX.Element => {
   const [addressToSend, setAddressToSend] = useState<string>("")
   const [amountToSend, setAmountToSend] = useState<string>("")
   const [srcValidatorAddress, setSrcValidatorAddress] = useState<string>("")
+  const [dstValidatorAddress, setDstValidatorAddress] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
 
   const query = () => {
@@ -27,6 +31,10 @@ const AllAllowances = (): JSX.Element => {
         return checkSendMsg()
       case "delegate":
         return checkDelegateMsg()
+      case "undelegate":
+        return checkUndelegateMsg()
+      case "redelegate":
+        return checkRedelegateMsg()
     }
   }
 
@@ -83,6 +91,61 @@ const AllAllowances = (): JSX.Element => {
       })
   }
 
+  const checkUndelegateMsg = () => {
+    if (srcValidatorAddress === "") return errorToast("Enter an adress.")
+    if (amountToSend === "") return errorToast("Enter an amount.")
+
+    const message: UndelegateMsg = {
+      staking: {
+        undelegate: {
+          validator: srcValidatorAddress,
+          amount: coin(parseInt(amountToSend), wallet.balance[0].denom),
+        },
+      },
+    }
+
+    setLoading(true)
+    contract
+      ?.canExecute(wallet.address, message)
+      .then((data) => {
+        setLoading(false)
+        setData(data)
+      })
+      .catch((err) => {
+        setLoading(false)
+        errorToast(err.message)
+      })
+  }
+
+  const checkRedelegateMsg = () => {
+    if (srcValidatorAddress === "") return errorToast("Enter a source adress.")
+    if (dstValidatorAddress === "")
+      return errorToast("Enter a destination adress.")
+    if (amountToSend === "") return errorToast("Enter an amount.")
+
+    const message: RedelegateMsg = {
+      staking: {
+        redelegate: {
+          src_validator: srcValidatorAddress,
+          dst_validator: dstValidatorAddress,
+          amount: coin(parseInt(amountToSend), wallet.balance[0].denom),
+        },
+      },
+    }
+
+    setLoading(true)
+    contract
+      ?.canExecute(wallet.address, message)
+      .then((data) => {
+        setLoading(false)
+        setData(data)
+      })
+      .catch((err) => {
+        setLoading(false)
+        errorToast(err.message)
+      })
+  }
+
   return (
     <div className="flex flex-col">
       <label className="label">
@@ -114,16 +177,28 @@ const AllAllowances = (): JSX.Element => {
           onChange={(e) => setAddressToSend(e.target.value)}
         />
       )}
-      {option === "delegate" && (
+      {(option === "delegate" || option === "undelegate") && (
         <input
           type="text"
-          placeholder="Validator Address"
+          placeholder="Source Validator Address"
           className="input input-bordered text-black"
           value={srcValidatorAddress}
           onChange={(e) => setSrcValidatorAddress(e.target.value)}
         />
       )}
-      {(option === "send" || option === "delegate") && (
+      {option === "redelegate" && (
+        <input
+          type="text"
+          placeholder="Destination Validator Address"
+          className="input input-bordered text-black"
+          value={dstValidatorAddress}
+          onChange={(e) => setDstValidatorAddress(e.target.value)}
+        />
+      )}
+      {(option === "send" ||
+        option === "delegate" ||
+        option === "undelegate" ||
+        option === "redelegate") && (
         <input
           type="number"
           placeholder="Amount"
@@ -139,7 +214,9 @@ const AllAllowances = (): JSX.Element => {
         {!loading && "Query"}
       </button>
 
-      <div>Can execute: {data !== null ? (data ? "Yes" : "No") : ""}</div>
+      <div>
+        Can execute: {data !== null ? (data.can_execute ? "Yes" : "No") : ""}
+      </div>
     </div>
   )
 }
