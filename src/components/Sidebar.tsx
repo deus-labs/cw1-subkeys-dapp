@@ -1,7 +1,7 @@
 import { useCallback } from "react"
 import {
   operationPath,
-  instentiatePath,
+  instantiatePath,
   executePath,
   queryPath,
 } from "src/routes"
@@ -41,7 +41,7 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
       </div>
       <div className="drawer-side">
         <label htmlFor="sidebar" className="drawer-overlay"></label>
-        <ul className="menu p-4 overflow-y-auto w-60 bg-deus-gray">
+        <ul className="menu p-4 overflow-y-auto w-60 bg-deus-gray text-deus-text">
           <li>
             <Link className="capitalize font-bold" to={`/${operationPath}`}>
               <FaCentos className="mr-4" />
@@ -49,9 +49,9 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
             </Link>
           </li>
           <li>
-            <Link className="capitalize font-bold" to={`/${instentiatePath}`}>
+            <Link className="capitalize font-bold" to={`/${instantiatePath}`}>
               <FaPlay className="mr-4" />
-              {instentiatePath}
+              {instantiatePath}
             </Link>
           </li>
           <li>

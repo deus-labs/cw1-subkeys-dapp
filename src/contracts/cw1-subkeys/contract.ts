@@ -158,7 +158,15 @@ export interface CW1Instance {
   ) => Promise<string>
 }
 
-interface CW1Contract {
+export interface CW1Contract {
+  instantiate: (
+    senderAddress: string,
+    codeId: number,
+    initMsg: Record<string, unknown>,
+    label: string
+    // admin?: string
+  ) => Promise<string>
+
   use: (contractAddress: string) => CW1Instance
 }
 
@@ -210,7 +218,6 @@ export const CW1 = (
       return client.queryContractSmart(contractAddress, { admin_list: {} })
     }
 
-    // called by an admin to make admin set immutable
     const freeze = async (senderAddress: string): Promise<string> => {
       const fee = calculateFee(options.fees.exec, options.gasPrice)
 
@@ -223,7 +230,6 @@ export const CW1 = (
       return result.transactionHash
     }
 
-    // burns tokens, returns transactionHash
     const updateAdmins = async (
       senderAddress: string,
       admins: readonly string[]
@@ -239,7 +245,6 @@ export const CW1 = (
       return result.transactionHash
     }
 
-    // transfers tokens, returns transactionHash
     const execute = async (
       senderAddress: string,
       msgs: readonly CosmosMsg[]
@@ -322,5 +327,24 @@ export const CW1 = (
     }
   }
 
-  return { use }
+  const instantiate = async (
+    senderAddress: string,
+    codeId: number,
+    initMsg: Record<string, unknown>,
+    label: string
+    // admin?: string
+  ): Promise<string> => {
+    const fee = calculateFee(options.fees.init, options.gasPrice)
+
+    const result = await client.instantiate(
+      senderAddress,
+      codeId,
+      initMsg,
+      label,
+      fee
+    )
+    return result.transactionHash
+  }
+
+  return { use, instantiate }
 }

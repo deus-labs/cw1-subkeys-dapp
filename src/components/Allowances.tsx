@@ -2,9 +2,10 @@ import { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { operationPath } from "src/routes"
 import { useCW1Contract, AllowanceInfo } from "src/contracts"
+import { contract as contractConfig } from "src/config"
 
 const Allowances = (): JSX.Element => {
-  const contract = useCW1Contract()
+  const contract = useCW1Contract()?.use(contractConfig.address)
   const history = useHistory()
 
   const [allowances, setAllowances] = useState<readonly AllowanceInfo[]>([])
