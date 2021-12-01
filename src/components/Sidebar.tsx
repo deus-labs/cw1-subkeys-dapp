@@ -41,7 +41,10 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
       </div>
       <div className="drawer-side">
         <label htmlFor="sidebar" className="drawer-overlay"></label>
-        <ul className="menu p-4 overflow-y-auto w-60 bg-deus-gray text-deus-text">
+        <ul className="menu p-4 overflow-y-auto w-80 bg-deus-gray text-deus-text">
+          <li>
+            <span className="font-bold">CW1-SUBKEYS</span>
+          </li>
           <li>
             <Link className="capitalize font-bold" to={`/${operationPath}`}>
               <FaCentos className="mr-4" />
@@ -66,7 +69,17 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
               {queryPath}
             </Link>
           </li>
-          <li className="h-full justify-end">
+          <li className="h-full justify-end pb-4">
+            <span className="flex justify-center">
+              <a
+                href="https://deuslabs.fi"
+                className="hover:text-deus-pink-soft"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Made by deus labs
+              </a>
+            </span>
             <button
               onClick={buttonOnClick}
               className={`btn bg-gradient-to-r from-deus-pink to-deus-purple hover:opacity-80 mx-5 ${
