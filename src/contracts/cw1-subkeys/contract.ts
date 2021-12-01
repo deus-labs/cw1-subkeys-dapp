@@ -14,7 +14,7 @@ type Expiration =
   | { at_time: { time: number } }
   | { never: {} }
 
-interface CanExecuteResponse {
+export interface CanExecuteResponse {
   readonly canExecute: boolean
 }
 
@@ -25,7 +25,7 @@ interface Permissions {
   readonly withdraw: boolean
 }
 
-interface PermissionsInfo {
+export interface PermissionsInfo {
   readonly spender: string
   readonly permissions: Permissions
 }
@@ -66,7 +66,7 @@ export interface SendMsg {
   }
 }
 
-interface DelegateMsg {
+export interface DelegateMsg {
   readonly staking: {
     readonly delegate: {
       readonly validator: string
@@ -75,7 +75,7 @@ interface DelegateMsg {
   }
 }
 
-interface UndelegateMsg {
+export interface UndelegateMsg {
   readonly staking: {
     readonly undelegate: {
       readonly validator: string
@@ -84,7 +84,7 @@ interface UndelegateMsg {
   }
 }
 
-interface RedelegateMsg {
+export interface RedelegateMsg {
   readonly staking: {
     readonly redelegate: {
       readonly src_validator: string
@@ -94,7 +94,7 @@ interface RedelegateMsg {
   }
 }
 
-interface WithdrawMsg {
+export interface WithdrawMsg {
   readonly staking: {
     readonly withdraw: {
       readonly validator: string
