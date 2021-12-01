@@ -1,4 +1,4 @@
-import { Coin } from "@cosmjs/amino"
+import { Coin } from "@cosmjs/proto-signing"
 import { calculateFee } from "@cosmjs/stargate"
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate"
 import { FeeOptions } from "src/config"

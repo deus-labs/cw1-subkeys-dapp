@@ -2,10 +2,20 @@ import { GasPrice } from "@cosmjs/stargate"
 import { useEffect, useState } from "react"
 import { config } from "src/config"
 import { useWallet } from "src/services/wallet"
-import { CW1Contract, CW1 as CW1Init } from "./contract"
+import { CW1Contract, CW1Instance, CW1 as CW1Init } from "./contract"
+interface InstantiateProps {
+  codeId: number
+  initMsg: Record<string, unknown>
+  label: string
+}
 
-export function useCW1Contract(): CW1Contract | undefined {
-  const { getClient } = useWallet()
+interface UseCW1ContractProps {
+  instantiate: ({ codeId, initMsg, label }: InstantiateProps) => Promise<string>
+  use: (contractAddress: string) => CW1Instance | undefined
+}
+
+export function useCW1Contract(): UseCW1ContractProps {
+  const { getClient, address } = useWallet()
 
   const [CW1, setCW1] = useState<CW1Contract>()
 
@@ -24,5 +34,25 @@ export function useCW1Contract(): CW1Contract | undefined {
     getCW1Instance()
   }, [getClient])
 
-  return CW1
+  const instantiate = ({
+    codeId,
+    initMsg,
+    label,
+  }: InstantiateProps): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      if (!CW1) return reject("Contract is not initialized.")
+      CW1.instantiate(address, codeId, initMsg, label)
+        .then(resolve)
+        .catch(reject)
+    })
+  }
+
+  const use = (contractAddress: string): CW1Instance | undefined => {
+    return CW1?.use(contractAddress)
+  }
+
+  return {
+    instantiate,
+    use,
+  }
 }

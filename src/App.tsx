@@ -4,6 +4,7 @@ import { WalletProvider } from "./services/wallet"
 import PageLayout from "./layout/Page"
 import {
   allowancesPath,
+  executePath,
   instantiatePath,
   operationPath,
   withdrawPath,
@@ -14,6 +15,7 @@ import Allowances from "./components/Allowances"
 import Withdraw from "./components/Withdraw"
 import Welcome from "./pages/Welcome"
 import Instantiate from "./pages/Instantiate"
+import Execute from "./pages/Execute"
 import "react-toastify/dist/ReactToastify.css"
 
 const App = (): JSX.Element => {
@@ -30,6 +32,7 @@ const App = (): JSX.Element => {
                 path={`/${instantiatePath}`}
                 component={Instantiate}
               />
+              <Route exact path={`/${executePath}`} component={Execute} />
               <Route exact path={`/${allowancesPath}`} component={Allowances} />
               <Route exact path={`/${withdrawPath}`} component={Withdraw} />
             </ProtectedSwitch>

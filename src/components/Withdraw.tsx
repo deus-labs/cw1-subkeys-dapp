@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import { useCW1Contract, SendMsg } from "src/contracts"
 import { useWallet } from "src/services/wallet"
-import { Coin, coin } from "@cosmjs/amino"
+import { Coin, coin } from "@cosmjs/proto-signing"
 import { errorToast, promiseToast } from "../utils"
 import { config, contract as contractConfig } from "src/config"
 import { operationPath } from "src/routes"
 import { useHistory } from "react-router"
 
 const Withdraw = (): JSX.Element => {
-  const contract = useCW1Contract()?.use(contractConfig.address)
+  const contract = useCW1Contract().use(contractConfig.address)
   const { address, balance, refreshBalance } = useWallet()
   const history = useHistory()
 

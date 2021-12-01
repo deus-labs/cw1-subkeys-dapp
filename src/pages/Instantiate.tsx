@@ -46,12 +46,11 @@ const Instantiate = (): JSX.Element => {
     setLoading(true)
 
     contract
-      .instantiate(
-        wallet.address,
-        parseInt(codeId),
-        { admins, mutable },
-        "cw1-subkeys-contract"
-      )
+      .instantiate({
+        codeId: parseInt(codeId),
+        initMsg: { admins, mutable },
+        label: "cw1-subkeys-contract",
+      })
       .then((hash) => {
         setLoading(false)
         setTxHash(hash)
