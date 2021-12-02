@@ -18,7 +18,7 @@ export interface CanExecuteResponse {
   readonly can_execute: boolean
 }
 
-interface Permissions {
+export interface Permissions {
   readonly delegate: boolean
   readonly undelegate: boolean
   readonly redelegate: boolean

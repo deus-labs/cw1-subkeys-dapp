@@ -1,16 +1,14 @@
 import React, { useState } from "react"
-import SectionLayout from "src/layout/Section"
 import { useWallet } from "src/services/wallet"
 import { useCW1Contract } from "src/contracts"
 import { errorToast } from "src/utils"
+import { contract as contractConfig } from "src/config"
 
-const Instantiate = (): JSX.Element => {
+const UpdateAdmins = (): JSX.Element => {
   const wallet = useWallet()
-  const contract = useCW1Contract()
+  const contract = useCW1Contract().use(contractConfig.address)
 
   const [input, setInput] = useState<string>("")
-  const [codeId, setCodeId] = useState<string>("")
-  const [mutable, setMutable] = useState<boolean>(false)
   const [admins, setAdmins] = useState<string[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [txHash, setTxHash] = useState<string>("")
@@ -28,16 +26,8 @@ const Instantiate = (): JSX.Element => {
     setInput(e.target.value)
   }
 
-  const checkboxOnChange = () => {
-    setMutable(!mutable)
-  }
-
-  const codeIdOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCodeId(e.target.value)
-  }
-
-  const instantiateOnClick = () => {
-    if (codeId === "" || admins.length === 0) {
+  const execute = () => {
+    if (admins.length === 0) {
       errorToast("Fill required fields")
       return
     }
@@ -46,11 +36,7 @@ const Instantiate = (): JSX.Element => {
     setLoading(true)
 
     contract
-      .instantiate({
-        codeId: parseInt(codeId),
-        initMsg: { admins, mutable },
-        label: "cw1-subkeys-contract",
-      })
+      .updateAdmins(wallet.address, admins)
       .then((hash) => {
         setLoading(false)
         setTxHash(hash)
@@ -62,9 +48,7 @@ const Instantiate = (): JSX.Element => {
   }
 
   return (
-    <SectionLayout>
-      <div>Address: {wallet.address}</div>
-      <br />
+    <>
       {admins.map((addr) => {
         return <div>Admin: {addr}</div>
       })}
@@ -83,34 +67,10 @@ const Instantiate = (): JSX.Element => {
           value={input}
           onChange={inputOnChange}
         />
-        <br />
-        <label className="cursor-pointer label">
-          <span className="label-text text-deus-text">Are admins mutable?</span>
-          <input
-            type="checkbox"
-            checked={mutable}
-            className="checkbox border-deus-text"
-            onChange={checkboxOnChange}
-          />
-        </label>
-        <br />
-        <label className="label">
-          <span className="label-text text-deus-text">
-            Enter Code ID for the contract
-          </span>
-        </label>
-        <input
-          type="number"
-          placeholder="Code ID"
-          className="input input-bordered text-black"
-          value={codeId}
-          onChange={codeIdOnChange}
-        />
-        <br />
       </div>
       <br />
       <button
-        onClick={instantiateOnClick}
+        onClick={execute}
         className={`btn btn-primary ${loading ? "loading" : ""}`}
       >
         {!loading && "Instantiate"}
@@ -119,8 +79,8 @@ const Instantiate = (): JSX.Element => {
       {txHash !== "" && (
         <span className="text-deus-text">Transaction Hash: {txHash}</span>
       )}
-    </SectionLayout>
+    </>
   )
 }
 
-export default Instantiate
+export default UpdateAdmins
