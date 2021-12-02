@@ -34,7 +34,7 @@ export function useKeplr() {
       await anyWindow.keplr.enable(config.chainId)
       await anyWindow.keplr.experimentalSuggestChain(keplrConfig)
 
-      const signer = anyWindow.getOfflineSigner(config.chainId)
+      const signer = anyWindow.getOfflineSignerAuto(config.chainId)
       signer.signAmino = signer.signAmino ?? signer.sign
 
       return Promise.resolve(signer)
