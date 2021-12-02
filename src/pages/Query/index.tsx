@@ -1,12 +1,12 @@
 import { useState } from "react"
 import SectionLayout from "src/layout/Section"
 import { useWallet } from "src/services/wallet"
-import AllAllowances from "src/components/Query/AllAllowances"
-import Admins from "src/components/Query/Admins"
-import Allowances from "src/components/Query/Allowances"
-import AllPermissions from "src/components/Query/AllPermissions"
-import Permissions from "src/components/Query/Permissions"
-import CanExecute from "src/components/Query/CanExecute"
+import AllAllowances from "./AllAllowances"
+import Admins from "./Admins"
+import Allowances from "./Allowances"
+import AllPermissions from "./AllPermissions"
+import Permissions from "./Permissions"
+import CanExecute from "./CanExecute"
 
 const Query = (): JSX.Element => {
   const wallet = useWallet()
