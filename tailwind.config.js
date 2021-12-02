@@ -11,7 +11,7 @@ module.exports = {
         "deus-pink-soft": "#FFA7FF",
         "deus-blue": "#001EFF",
         "deus-red": "#F81F01",
-        "deus-text": "rgba(198, 201, 216, 0.75)",
+        "deus-text": "#D3D3D3",
         "deus-green": "#4BFF97",
       },
     },

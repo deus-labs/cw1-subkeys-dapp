@@ -1,11 +1,9 @@
 const Welcome = (): JSX.Element => {
   return (
-    <div className="hero min-h-screen bg-base-200">
-      <div className="text-center hero-content">
-        <div className="max-w-md">
-          <h1 className="mb-5 text-5xl font-bold">Hello there</h1>
-        </div>
-      </div>
+    <div className="p-5 bg-deus-black">
+      <div className="text-5xl font-bold mb-5">CW1 Subkeys</div>
+
+      <div className="text-3xl">What is it?</div>
     </div>
   )
 }

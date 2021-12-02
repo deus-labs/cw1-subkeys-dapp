@@ -73,7 +73,7 @@ const UpdateAdmins = (): JSX.Element => {
         onClick={execute}
         className={`btn btn-primary ${loading ? "loading" : ""}`}
       >
-        {!loading && "Instantiate"}
+        {!loading && "Execute"}
       </button>
       <br />
       {txHash !== "" && (

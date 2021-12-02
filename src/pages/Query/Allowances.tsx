@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useCW1Contract, AllowanceInfo } from "src/contracts"
 import { contract as contractConfig } from "src/config"
 import { errorToast } from "src/utils"
+import PrettyPrint from "src/components/PrettyPrint"
 
 const AllAllowances = (): JSX.Element => {
   const contract = useCW1Contract().use(contractConfig.address)
@@ -42,7 +43,7 @@ const AllAllowances = (): JSX.Element => {
         {!loading && "Query"}
       </button>
 
-      <div>{JSON.stringify(data)}</div>
+      <PrettyPrint data={data} />
     </>
   )
 }

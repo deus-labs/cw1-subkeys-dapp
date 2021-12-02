@@ -2,11 +2,12 @@ import { useState } from "react"
 import { useCW1Contract } from "src/contracts"
 import { contract as contractConfig } from "src/config"
 import { errorToast } from "src/utils"
+import PrettyPrint from "src/components/PrettyPrint"
 
 const AllAllowances = (): JSX.Element => {
   const contract = useCW1Contract().use(contractConfig.address)
 
-  const [admins, setAdmins] = useState<readonly string[]>([])
+  const [admins, setAdmins] = useState<readonly string[]>()
   const [isMutable, setIsMutable] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -34,7 +35,7 @@ const AllAllowances = (): JSX.Element => {
         {!loading && "Query"}
       </button>
 
-      <div>{JSON.stringify(admins)}</div>
+      <PrettyPrint data={admins} />
       <div>{isMutable}</div>
     </>
   )

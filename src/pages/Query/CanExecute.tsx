@@ -12,13 +12,14 @@ import { contract as contractConfig } from "src/config"
 import { errorToast } from "src/utils"
 import { coin } from "@cosmjs/proto-signing"
 import { useWallet } from "src/services/wallet"
+import PrettyPrint from "src/components/PrettyPrint"
 
 const AllAllowances = (): JSX.Element => {
   const wallet = useWallet()
   const contract = useCW1Contract().use(contractConfig.address)
 
   const [option, setOption] = useState<string>("send")
-  const [data, setData] = useState<CanExecuteResponse | null>(null)
+  const [data, setData] = useState<CanExecuteResponse>()
   const [addressToSend, setAddressToSend] = useState<string>("")
   const [amountToSend, setAmountToSend] = useState<string>("")
   const [srcValidatorAddress, setSrcValidatorAddress] = useState<string>("")
@@ -156,7 +157,6 @@ const AllAllowances = (): JSX.Element => {
       <select
         className="select select-bordered w-full max-w-xs text-black"
         onChange={(e) => {
-          setData(null)
           setOption(e.target.value)
         }}
         value={option}
@@ -214,9 +214,7 @@ const AllAllowances = (): JSX.Element => {
         {!loading && "Query"}
       </button>
 
-      <div>
-        Can execute: {data !== null ? (data.can_execute ? "Yes" : "No") : ""}
-      </div>
+      <PrettyPrint data={data} />
     </div>
   )
 }
