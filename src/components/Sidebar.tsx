@@ -41,7 +41,7 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
       </div>
       <div className="drawer-side">
         <label htmlFor="sidebar" className="drawer-overlay"></label>
-        <ul className="menu p-4 overflow-y-auto w-80 bg-deus-gray text-deus-text">
+        <ul className="menu p-4 overflow-y-auto w-84 bg-deus-gray text-deus-text">
           {/* <li>
             <Link
               className="capitalize font-bold text-xl"
@@ -83,19 +83,23 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
               className="flex justify-center"
               style={{ backgroundColor: "transparent" }}
             >
-              <div className="text-l font-bold">Made by </div>
-              <img src="/deus-logo.png" alt="deus labs" className="h-10" />
+              <div className="text-xl font-bold">Made by </div>
+              <img src="/deus-logo.png" alt="deus labs" className="h-12" />
             </a>
             <a
               href="https://cosmwasm.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex justify-center mb-3"
+              className="flex justify-center"
               style={{ backgroundColor: "transparent" }}
             >
-              <div className="text-l font-bold mr-2">Powered by </div>
-              <img src="/cosmwasm-logo.svg" alt="deus labs" className="h-8" />
+              <div className="text-xl font-bold mr-2">Powered by </div>
+              <img src="/cosmwasm-logo.svg" alt="cosmwasm" className="h-10" />
             </a>
+            <div className="mb-3 flex items-center justify-center text-xl font-bold">
+              Made with{" "}
+              <img src="/nyan-love.png" alt="love" className="h-12 ml-1" />
+            </div>
             <button
               onClick={buttonOnClick}
               className={`btn bg-gradient-to-r from-deus-pink to-deus-purple
