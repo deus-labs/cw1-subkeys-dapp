@@ -123,5 +123,5 @@ export interface ContractProps {
 }
 
 export const contract: ContractProps = {
-  address: "juno1uv9z4d6r87mk58vc9px94wshwk2d6eczec2qd5g42ryk59azgqeqdhglhs",
+  address: "juno1p4x3dcr6q5ekcp2z28a522zxf7wnkczhtaejh6t5tr3rr9pxlrtq6308a5",
 }

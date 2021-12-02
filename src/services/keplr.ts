@@ -4,7 +4,7 @@ import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate"
 import { config, keplrConfig } from "src/config"
 import { useWallet } from "./wallet"
 import { errorToast } from "src/utils"
-import { operationPath } from "src/routes"
+import { contractPath } from "src/routes"
 import { useHistory } from "react-router"
 
 export async function createClient(
@@ -60,7 +60,7 @@ export function useKeplr() {
   useEffect(() => {
     if (!initialized) return
 
-    history.push(operationPath)
+    history.push(contractPath)
 
     setInitializing(false)
   }, [initialized, history])

@@ -1,6 +1,4 @@
-export const operationPath = "operations"
-export const allowancesPath = "allowances"
-export const withdrawPath = "withdraw"
 export const instantiatePath = "instantiate"
 export const executePath = "execute"
 export const queryPath = "query"
+export const contractPath = "contract"

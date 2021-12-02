@@ -1,15 +1,15 @@
 import { useCallback } from "react"
 import {
-  operationPath,
   instantiatePath,
   executePath,
   queryPath,
+  contractPath,
 } from "src/routes"
 import { useKeplr } from "src/services/keplr"
 import { useWallet } from "src/services/wallet"
 import { Link } from "react-router-dom"
 import Navbar from "./Navbar"
-import { FaPlay, FaMicrochip, FaSolarPanel, FaCentos } from "react-icons/fa"
+import { FaPlay, FaMicrochip, FaSolarPanel, FaBook } from "react-icons/fa"
 
 interface SidebarProps {
   content: JSX.Element
@@ -46,9 +46,9 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
             <span className="font-bold">CW1-SUBKEYS</span>
           </li>
           <li>
-            <Link className="capitalize font-bold" to={`/${operationPath}`}>
-              <FaCentos className="mr-4" />
-              {operationPath}
+            <Link className="capitalize font-bold" to={`/${contractPath}`}>
+              <FaBook className="mr-4" />
+              {contractPath}
             </Link>
           </li>
           <li>
