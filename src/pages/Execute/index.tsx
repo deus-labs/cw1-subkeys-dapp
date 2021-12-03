@@ -1,16 +1,15 @@
 import { useState } from "react"
 import SectionLayout from "src/layout/Section"
-import { useWallet } from "src/services/wallet"
 import SendTokens from "./SendTokens"
 import IncreaseAllowance from "./IncreaseAllowance"
 import DecreaseAllowace from "./DecreaseAllowace"
 import UpdateAdmins from "./UpdateAdmins"
 import FreezeAdmins from "./FreezeAdmins"
 import SetPermissions from "./SetPermissions"
+import WalletAddress from "src/components/WalletAddress"
+import ContractAddress from "src/components/ContractAddress"
 
 const Execute = (): JSX.Element => {
-  const wallet = useWallet()
-
   const [option, setOption] = useState<string>("send-tokens")
 
   const optionOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -19,7 +18,8 @@ const Execute = (): JSX.Element => {
 
   return (
     <SectionLayout>
-      <div>Address: {wallet.address}</div>
+      <WalletAddress />
+      <ContractAddress />
       <br />
 
       <select

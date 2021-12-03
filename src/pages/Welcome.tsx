@@ -2,7 +2,7 @@ import { FaArrowLeft } from "react-icons/fa"
 
 const Welcome = (): JSX.Element => {
   return (
-    <div className="p-6 pr-60 bg-deus-black h-full flex flex-col justify-between">
+    <div className="p-6 pr-60 bg-deus-black h-full flex flex-col justify-between text-deus-text">
       <div className="">
         <div className="text-5xl font-bold mb-5">CW1 Subkeys</div>
         <div className="text-3xl">What is it?</div>

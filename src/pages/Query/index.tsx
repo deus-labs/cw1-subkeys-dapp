@@ -1,16 +1,15 @@
 import { useState } from "react"
 import SectionLayout from "src/layout/Section"
-import { useWallet } from "src/services/wallet"
 import AllAllowances from "./AllAllowances"
 import Admins from "./Admins"
 import Allowances from "./Allowances"
 import AllPermissions from "./AllPermissions"
 import Permissions from "./Permissions"
 import CanExecute from "./CanExecute"
+import WalletAddress from "src/components/WalletAddress"
+import ContractAddress from "src/components/ContractAddress"
 
 const Query = (): JSX.Element => {
-  const wallet = useWallet()
-
   const [option, setOption] = useState<string>("admins")
 
   const optionOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -19,7 +18,8 @@ const Query = (): JSX.Element => {
 
   return (
     <SectionLayout>
-      <div>Address: {wallet.address}</div>
+      <WalletAddress />
+      <ContractAddress />
       <label className="label">
         <span className="label-text text-deus-text">Select query</span>
       </label>

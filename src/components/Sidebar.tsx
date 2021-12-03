@@ -10,6 +10,7 @@ import { useWallet } from "src/services/wallet"
 import { Link } from "react-router-dom"
 import Navbar from "./Navbar"
 import { FaPlay, FaMicrochip, FaSolarPanel /* FaBook */ } from "react-icons/fa"
+import { useLocation } from "react-router-dom"
 
 interface SidebarProps {
   content: JSX.Element
@@ -18,6 +19,7 @@ interface SidebarProps {
 const Sidebar = ({ content }: SidebarProps): JSX.Element => {
   const { initialized } = useWallet()
   const keplr = useKeplr()
+  const location = useLocation()
 
   const disconnect = () => {
     keplr.disconnect()
@@ -41,7 +43,7 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
       </div>
       <div className="drawer-side">
         <label htmlFor="sidebar" className="drawer-overlay"></label>
-        <ul className="menu p-4 overflow-y-auto w-84 bg-deus-gray text-deus-text">
+        <ul className="menu p-4 overflow-y-auto w-80 bg-deus-gray text-deus-text">
           {/* <li>
             <Link
               className="capitalize font-bold text-xl"
@@ -53,7 +55,11 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
           </li> */}
           <li>
             <Link
-              className="capitalize font-bold text-xl"
+              className={`capitalize font-bold text-xl ${
+                location.pathname === `/${instantiatePath}`
+                  ? "bg-deus-purple"
+                  : ""
+              }`}
               to={`/${instantiatePath}`}
             >
               <FaPlay className="mr-4" />
@@ -62,7 +68,9 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
           </li>
           <li>
             <Link
-              className="capitalize font-bold text-xl"
+              className={`capitalize font-bold text-xl ${
+                location.pathname === `/${executePath}` ? "bg-deus-purple" : ""
+              }`}
               to={`/${executePath}`}
             >
               <FaMicrochip className="mr-4" />
@@ -70,7 +78,12 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
             </Link>
           </li>
           <li>
-            <Link className="capitalize font-bold text-xl" to={`/${queryPath}`}>
+            <Link
+              className={`capitalize font-bold text-xl ${
+                location.pathname === `/${queryPath}` ? "bg-deus-purple" : ""
+              }`}
+              to={`/${queryPath}`}
+            >
               <FaSolarPanel className="mr-4" />
               {queryPath}
             </Link>
@@ -83,22 +96,26 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
               className="flex justify-center"
               style={{ backgroundColor: "transparent" }}
             >
-              <div className="text-xl font-bold">Made by </div>
-              <img src="/deus-logo.png" alt="deus labs" className="h-12" />
+              <div className="text-l font-bold">Made by </div>
+              <img src="/deus-logo.png" alt="deus labs" className="h-10" />
             </a>
             <a
               href="https://cosmwasm.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex justify-center"
+              className="flex justify-center mb-2"
               style={{ backgroundColor: "transparent" }}
             >
-              <div className="text-xl font-bold mr-2">Powered by </div>
-              <img src="/cosmwasm-logo.svg" alt="cosmwasm" className="h-10" />
+              <div className="text-l font-bold mr-2">Powered by </div>
+              <img src="/cosmwasm-logo.svg" alt="cosmwasm" className="h-8" />
             </a>
-            <div className="mb-3 flex items-center justify-center text-xl font-bold">
+            <div className="mb-3 flex items-center justify-center text-l font-bold">
               Made with{" "}
-              <img src="/nyan-love.png" alt="love" className="h-12 ml-1" />
+              <img
+                src="/nyan-love.png"
+                alt="love"
+                className="h-10 ml-1 animate-bounce"
+              />
             </div>
             <button
               onClick={buttonOnClick}

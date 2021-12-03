@@ -1,12 +1,11 @@
 import { useState } from "react"
-import { useCW1Contract } from "src/contracts"
-import { contract as contractConfig } from "src/config"
+import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
 import { useWallet } from "src/services/wallet"
 
 const FreezeAdmins = (): JSX.Element => {
   const wallet = useWallet()
-  const contract = useCW1Contract().use(contractConfig.address)
+  const contract = useContracts().cw1Subkeys?.use()
 
   const [txHash, setTxHash] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)

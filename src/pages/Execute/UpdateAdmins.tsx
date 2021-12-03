@@ -1,12 +1,11 @@
 import React, { useState } from "react"
 import { useWallet } from "src/services/wallet"
-import { useCW1Contract } from "src/contracts"
+import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
-import { contract as contractConfig } from "src/config"
 
 const UpdateAdmins = (): JSX.Element => {
   const wallet = useWallet()
-  const contract = useCW1Contract().use(contractConfig.address)
+  const contract = useContracts().cw1Subkeys?.use()
 
   const [input, setInput] = useState<string>("")
   const [admins, setAdmins] = useState<string[]>([])

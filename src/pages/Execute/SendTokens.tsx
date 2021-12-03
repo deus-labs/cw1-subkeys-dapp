@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { useWallet } from "src/services/wallet"
-import { useCW1Contract, SendMsg } from "src/contracts"
-import { contract as contractConfig } from "src/config"
+import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
 import { coin } from "@cosmjs/proto-signing"
+import { SendMsg } from "src/contracts/cw1-subkeys"
 
 const SendTokens = (): JSX.Element => {
   const wallet = useWallet()
-  const contract = useCW1Contract().use(contractConfig.address)
+  const contract = useContracts().cw1Subkeys?.use()
 
   const [addressToSend, setAddressToSend] = useState<string>("")
   const [amountToSend, setAmountToSend] = useState<string>("")
@@ -22,7 +22,7 @@ const SendTokens = (): JSX.Element => {
     const message: SendMsg = {
       bank: {
         send: {
-          from_address: contractConfig.address,
+          from_address: contract.contractAddress,
           to_address: addressToSend,
           amount: [coin(parseInt(amountToSend), wallet.balance[0].denom)],
         },

@@ -1,11 +1,11 @@
 import { useState } from "react"
-import { useCW1Contract, PermissionsInfo } from "src/contracts"
-import { contract as contractConfig } from "src/config"
+import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
 import PrettyPrint from "src/components/PrettyPrint"
+import { PermissionsInfo } from "src/contracts/cw1-subkeys"
 
 const AllAllowances = (): JSX.Element => {
-  const contract = useCW1Contract().use(contractConfig.address)
+  const contract = useContracts().cw1Subkeys?.use()
 
   const [data, setData] = useState<PermissionsInfo>()
   const [address, setAddress] = useState<string>("")

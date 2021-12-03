@@ -1,22 +1,23 @@
 import { useState } from "react"
 import {
-  useCW1Contract,
+  useContracts,
+  // WithdrawMsg,
+} from "src/contracts"
+import { errorToast } from "src/utils"
+import { coin } from "@cosmjs/proto-signing"
+import { useWallet } from "src/services/wallet"
+import PrettyPrint from "src/components/PrettyPrint"
+import {
   CanExecuteResponse,
   SendMsg,
   DelegateMsg,
   UndelegateMsg,
   RedelegateMsg,
-  // WithdrawMsg,
-} from "src/contracts"
-import { contract as contractConfig } from "src/config"
-import { errorToast } from "src/utils"
-import { coin } from "@cosmjs/proto-signing"
-import { useWallet } from "src/services/wallet"
-import PrettyPrint from "src/components/PrettyPrint"
+} from "src/contracts/cw1-subkeys"
 
 const AllAllowances = (): JSX.Element => {
   const wallet = useWallet()
-  const contract = useCW1Contract().use(contractConfig.address)
+  const contract = useContracts().cw1Subkeys?.use()
 
   const [option, setOption] = useState<string>("send")
   const [data, setData] = useState<CanExecuteResponse>()
@@ -40,13 +41,14 @@ const AllAllowances = (): JSX.Element => {
   }
 
   const checkSendMsg = () => {
+    if (!contract) return errorToast("Contract is not initialized.")
     if (addressToSend === "") return errorToast("Enter an adress.")
     if (amountToSend === "") return errorToast("Enter an amount.")
 
     const message: SendMsg = {
       bank: {
         send: {
-          from_address: contractConfig.address,
+          from_address: contract.contractAddress,
           to_address: addressToSend,
           amount: [coin(parseInt(amountToSend), wallet.balance[0].denom)],
         },

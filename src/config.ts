@@ -117,11 +117,3 @@ export const keplrConfig: KeplrConfig = {
   bip44: { coinType: 118 },
   coinType: 118,
 }
-
-export interface ContractProps {
-  address: string
-}
-
-export const contract: ContractProps = {
-  address: "juno1p4x3dcr6q5ekcp2z28a522zxf7wnkczhtaejh6t5tr3rr9pxlrtq6308a5",
-}

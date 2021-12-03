@@ -1,12 +1,11 @@
 import React, { useState } from "react"
 import SectionLayout from "src/layout/Section"
-import { useWallet } from "src/services/wallet"
-import { useCW1Contract } from "src/contracts"
+import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
+import WalletAddress from "src/components/WalletAddress"
 
 const Instantiate = (): JSX.Element => {
-  const wallet = useWallet()
-  const contract = useCW1Contract()
+  const contract = useContracts().cw1Subkeys
 
   const [input, setInput] = useState<string>("")
   const [codeId, setCodeId] = useState<string>("")
@@ -63,7 +62,7 @@ const Instantiate = (): JSX.Element => {
 
   return (
     <SectionLayout>
-      <div>Address: {wallet.address}</div>
+      <WalletAddress />
       <br />
       {admins.map((addr) => {
         return <div>Admin: {addr}</div>

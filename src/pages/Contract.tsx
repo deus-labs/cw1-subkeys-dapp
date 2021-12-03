@@ -1,4 +1,4 @@
-import { contract } from "src/config"
+// import { contract } from "src/config"
 import { useWallet } from "src/services/wallet"
 
 const Contract = (): JSX.Element => {
@@ -13,8 +13,6 @@ const Contract = (): JSX.Element => {
         <div className="text-3xl">Your wallet address is:</div>
         <div className="text-3xl">{wallet.address}</div>
         <br />
-        <div className="text-3xl">Contract address is:</div>
-        <div className="text-3xl">{contract.address}</div>
       </div>
     </div>
   )

@@ -1,12 +1,12 @@
 import { useState } from "react"
 import { useWallet } from "src/services/wallet"
-import { Permissions, useCW1Contract } from "src/contracts"
-import { contract as contractConfig } from "src/config"
+import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
+import { Permissions } from "src/contracts/cw1-subkeys"
 
 const SetPermissions = (): JSX.Element => {
   const wallet = useWallet()
-  const contract = useCW1Contract().use(contractConfig.address)
+  const contract = useContracts().cw1Subkeys?.use()
 
   const [address, setAddress] = useState<string>("")
   const [txHash, setTxHash] = useState<string>("")

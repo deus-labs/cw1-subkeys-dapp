@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { useWallet } from "src/services/wallet"
-import { useCW1Contract } from "src/contracts"
-import { contract as contractConfig, config } from "src/config"
+import { useContracts } from "src/contracts"
+import { config } from "src/config"
 import { errorToast } from "src/utils"
 import { coin } from "@cosmjs/proto-signing"
 
 const IncreaseAllowance = (): JSX.Element => {
   const wallet = useWallet()
-  const contract = useCW1Contract().use(contractConfig.address)
+  const contract = useContracts().cw1Subkeys?.use()
 
   const [allowanceAddress, setAllowanceAddress] = useState<string>("")
   const [allowanceAmount, setAllowanceAmount] = useState<string>("")

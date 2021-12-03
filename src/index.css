@@ -6,7 +6,6 @@
 
 html {
   height: -webkit-fill-available;
-  background: #101010;
 }
 
 body {
@@ -19,7 +18,6 @@ body {
   height: 100vh;
   min-height: 100vh;
   min-height: -webkit-fill-available;
-  background: #101010;
 }
 
 code {

@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 import { WalletProvider } from "./services/wallet"
+import { ContractsProvider } from "./contracts"
 import PageLayout from "./layout/Page"
 import {
   executePath,
@@ -18,24 +19,26 @@ import "react-toastify/dist/ReactToastify.css"
 const App = (): JSX.Element => {
   return (
     <WalletProvider>
-      <Router basename={process.env.PUBLIC_URL}>
-        <PageLayout>
-          <Switch>
-            <Route exact path="/" component={Welcome} />
-            <ProtectedSwitch>
-              {/* <Route exact path={`/${contractPath}`} component={Contract} /> */}
-              <Route
-                exact
-                path={`/${instantiatePath}`}
-                component={Instantiate}
-              />
-              <Route exact path={`/${executePath}`} component={Execute} />
-              <Route exact path={`/${queryPath}`} component={Query} />
-            </ProtectedSwitch>
-          </Switch>
-        </PageLayout>
-      </Router>
-      <ToastContainer theme="dark" />
+      <ContractsProvider>
+        <Router basename={process.env.PUBLIC_URL}>
+          <PageLayout>
+            <Switch>
+              <Route exact path="/" component={Welcome} />
+              <ProtectedSwitch>
+                {/* <Route exact path={`/${contractPath}`} component={Contract} /> */}
+                <Route
+                  exact
+                  path={`/${instantiatePath}`}
+                  component={Instantiate}
+                />
+                <Route exact path={`/${executePath}`} component={Execute} />
+                <Route exact path={`/${queryPath}`} component={Query} />
+              </ProtectedSwitch>
+            </Switch>
+          </PageLayout>
+        </Router>
+        <ToastContainer theme="dark" />
+      </ContractsProvider>
     </WalletProvider>
   )
 }

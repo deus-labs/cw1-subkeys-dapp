@@ -1,17 +1,18 @@
 import { useState } from "react"
-import { useCW1Contract } from "src/contracts"
-import { contract as contractConfig } from "src/config"
+import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
 import PrettyPrint from "src/components/PrettyPrint"
 
-const AllAllowances = (): JSX.Element => {
-  const contract = useCW1Contract().use(contractConfig.address)
+const Admins = (): JSX.Element => {
+  const contract = useContracts().cw1Subkeys?.use()
 
   const [admins, setAdmins] = useState<readonly string[]>()
   const [isMutable, setIsMutable] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
   const query = () => {
+    if (!contract) return errorToast("Contract is not initialized.")
+
     setLoading(true)
     contract
       ?.admins()
@@ -41,4 +42,4 @@ const AllAllowances = (): JSX.Element => {
   )
 }
 
-export default AllAllowances
+export default Admins
