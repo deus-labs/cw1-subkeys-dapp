@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useContracts } from "src/contracts"
+import Input from "./Input"
 
 const ContractAddress = (): JSX.Element => {
   const contract = useContracts().cw1Subkeys
@@ -18,12 +19,12 @@ const ContractAddress = (): JSX.Element => {
   return (
     <div className="flex justify-center">
       <div className="flex justify-center text-lg font-bold items-center">
-        <span className="text-deus-text">Your contract address:</span>
+        <span className="text-deus-text">Contract address:</span>
       </div>
-      <input
+      <Input
         type="text"
         placeholder="Enter Contract Address"
-        className="input input-bordered text-deus-dark ml-2 w-96 font-bold"
+        className="ml-2 w-4/6 text-center"
         value={contractAddress}
         onChange={(e) => setContractAddress(e.target.value)}
       />
