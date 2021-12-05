@@ -53,7 +53,7 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
               {contractPath}
             </Link>
           </li> */}
-          <li>
+          <li className="mb-2">
             <Link
               className={`capitalize font-bold text-xl ${
                 location.pathname === `/${instantiatePath}`
@@ -66,7 +66,7 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
               {instantiatePath}
             </Link>
           </li>
-          <li>
+          <li className="mb-2">
             <Link
               className={`capitalize font-bold text-xl ${
                 location.pathname === `/${executePath}` ? "bg-deus-purple" : ""
