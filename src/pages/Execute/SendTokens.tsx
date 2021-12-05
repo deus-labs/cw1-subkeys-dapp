@@ -5,6 +5,8 @@ import { errorToast } from "src/utils"
 import { coin } from "@cosmjs/proto-signing"
 import { SendMsg } from "src/contracts/cw1-subkeys"
 import TextInput from "src/components/TextInput"
+import Button from "src/components/Button"
+import TransactionHash from "src/components/TransactionHash"
 
 const SendTokens = (): JSX.Element => {
   const wallet = useWallet()
@@ -45,34 +47,30 @@ const SendTokens = (): JSX.Element => {
   }
 
   return (
-    <div className="form-control">
+    <div className="form-control items-center">
       <TextInput
         placeholder="Address"
         value={addressToSend}
         onChange={(e) => setAddressToSend(e.target.value)}
         label="Address to send"
+        className="mb-4"
       />
-      <label className="label">
-        <span className="label-text text-deus-text">Amount to send</span>
-      </label>
-      <input
+      <TextInput
         type="number"
         placeholder="Amount"
-        className="input input-bordered text-black"
         value={amountToSend}
         onChange={(e) => setAmountToSend(e.target.value)}
+        label="Amount to send"
+        className="mb-4"
       />
       <br />
-      <button
+      <Button
         onClick={execute}
-        className={`btn btn-primary ${loading ? "loading" : ""}`}
-      >
-        {!loading && "Execute"}
-      </button>
-
-      {txHash !== "" && (
-        <span className="text-deus-text">Transaction Hash: {txHash}</span>
-      )}
+        loading={loading}
+        text="Execute"
+        className="btn-primary"
+      />
+      <TransactionHash txHash={txHash} />
     </div>
   )
 }

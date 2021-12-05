@@ -8,38 +8,39 @@ import FreezeAdmins from "./FreezeAdmins"
 import SetPermissions from "./SetPermissions"
 import WalletAddress from "src/components/WalletAddress"
 import ContractAddress from "src/components/ContractAddress"
+import Dropdown from "src/components/Dropdown"
+
+const DROPDOWN_OPTIONS = [
+  "Send tokens",
+  "Increase Allowance",
+  "Decrease Allowance",
+  "Update Admins",
+  "Freeze Admins",
+  "Set Permissions",
+]
 
 const Execute = (): JSX.Element => {
   const [option, setOption] = useState<string>("send-tokens")
-
-  const optionOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setOption(e.target.value)
-  }
 
   return (
     <SectionLayout>
       <WalletAddress />
       <ContractAddress />
-      <select
-        className="select select-bordered w-full max-w-xs text-black"
-        onChange={optionOnChange}
+      <br />
+      <Dropdown
+        onChange={(e) => setOption(e.target.value)}
         value={option}
-      >
-        <option value="send-tokens">Send tokens</option>
-        <option value="increase-allowance">Increase Allowance</option>
-        <option value="decrease-allowance">Decrease Allowance</option>
-        <option value="update-admins">Update Admins</option>
-        <option value="freeze-admins">Freeze Admins</option>
-        <option value="set-permissions">Set Permissions</option>
-      </select>
-      <br />
-      <br />
-      {option === "send-tokens" && <SendTokens />}
-      {option === "increase-allowance" && <IncreaseAllowance />}
-      {option === "decrease-allowance" && <DecreaseAllowace />}
-      {option === "update-admins" && <UpdateAdmins />}
-      {option === "freeze-admins" && <FreezeAdmins />}
-      {option === "set-permissions" && <SetPermissions />}
+        options={DROPDOWN_OPTIONS}
+        label="Select execute operation"
+      />
+      <div className="pt-4">
+        {option === "send-tokens" && <SendTokens />}
+        {option === "increase-allowance" && <IncreaseAllowance />}
+        {option === "decrease-allowance" && <DecreaseAllowace />}
+        {option === "update-admins" && <UpdateAdmins />}
+        {option === "freeze-admins" && <FreezeAdmins />}
+        {option === "set-permissions" && <SetPermissions />}
+      </div>
     </SectionLayout>
   )
 }

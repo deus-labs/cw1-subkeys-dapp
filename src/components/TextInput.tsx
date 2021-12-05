@@ -27,7 +27,7 @@ const Input = ({
       <input
         type={type}
         placeholder={placeholder}
-        className={`input input-bordered bg-white text-deus-dark font-bold ${className}`}
+        className={`input input-bordered bg-white text-deus-dark font-bold w-3/6 ${className}`}
         value={value}
         onChange={onChange}
         onKeyPress={onKeyPress}

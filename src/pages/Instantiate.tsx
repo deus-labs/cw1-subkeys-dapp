@@ -61,45 +61,42 @@ const Instantiate = (): JSX.Element => {
     <SectionLayout>
       <WalletAddress />
       <br />
-      <div className="form-control justify-between">
-        <div className="form-control items-center">
-          <TextInput
-            placeholder="Admin address"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={inputOnKeyPress}
-            label="Press enter after entering admin address"
-            className="w-3/6 mb-3"
-          />
-          {admins.length !== 0 && (
-            <PrettyPrint data={admins} style={{ width: "70%" }} />
-          )}
-          <br />
-          <Checkbox
-            checked={mutable}
-            onChange={() => setMutable(!mutable)}
-            label="Are admins mutable?"
-          />
-          <br />
-          <TextInput
-            type="number"
-            placeholder="Code ID"
-            value={codeId}
-            onChange={codeIdOnChange}
-            label="Enter Code ID for the contract"
-            className="w-3/6"
-          />
-          <br />
-          <br />
-          <Button
-            onClick={instantiateOnClick}
-            className="btn-primary text-lg w-3/6"
-            text="Instantiate"
-            loading={loading}
-          />
-          <br />
-          <TransactionHash txHash={txHash} />
-        </div>
+      <div className="form-control items-center">
+        <TextInput
+          placeholder="Admin address"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyPress={inputOnKeyPress}
+          label="Press enter after entering admin address"
+          className="mb-3"
+        />
+        {admins.length !== 0 && (
+          <PrettyPrint data={admins} style={{ width: "70%" }} />
+        )}
+        <br />
+        <Checkbox
+          checked={mutable}
+          onChange={() => setMutable(!mutable)}
+          label="Are admins mutable?"
+        />
+        <br />
+        <TextInput
+          type="number"
+          placeholder="Code ID"
+          value={codeId}
+          onChange={codeIdOnChange}
+          label="Enter Code ID for the contract"
+        />
+        <br />
+        <br />
+        <Button
+          onClick={instantiateOnClick}
+          className="btn-primary"
+          text="Instantiate"
+          loading={loading}
+        />
+        <br />
+        <TransactionHash txHash={txHash} />
       </div>
     </SectionLayout>
   )

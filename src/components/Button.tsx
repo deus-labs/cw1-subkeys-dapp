@@ -14,7 +14,9 @@ const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`btn ${loading ? "loading" : ""} capitalize ${className}`}
+      className={`btn ${
+        loading ? "loading" : ""
+      } capitalize ${className} w-3/6 text-lg`}
     >
       {!loading && text}
     </button>
