@@ -2,7 +2,12 @@ import React, { useState } from "react"
 import SectionLayout from "src/layout/Section"
 import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
+import TextInput from "src/components/TextInput"
+import PrettyPrint from "src/components/PrettyPrint"
+import Checkbox from "src/components/Checkbox"
 import WalletAddress from "src/components/WalletAddress"
+import Button from "src/components/Button"
+import TransactionHash from "src/components/TransactionHash"
 
 const Instantiate = (): JSX.Element => {
   const contract = useContracts().cw1Subkeys
@@ -21,14 +26,6 @@ const Instantiate = (): JSX.Element => {
       setAdmins([...admins, input])
       setInput("")
     }
-  }
-
-  const inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value)
-  }
-
-  const checkboxOnChange = () => {
-    setMutable(!mutable)
   }
 
   const codeIdOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,60 +61,46 @@ const Instantiate = (): JSX.Element => {
     <SectionLayout>
       <WalletAddress />
       <br />
-      {admins.map((addr) => {
-        return <div>Admin: {addr}</div>
-      })}
-      <br />
-      <div className="form-control">
-        <label className="label">
-          <span className="label-text text-deus-text">
-            Press enter after entering admin address
-          </span>
-        </label>
-        <input
-          type="text"
-          placeholder="Admin address"
-          className="input input-bordered text-black"
-          onKeyPress={inputOnKeyPress}
-          value={input}
-          onChange={inputOnChange}
-        />
-        <br />
-        <label className="cursor-pointer label">
-          <span className="label-text text-deus-text">Are admins mutable?</span>
-          <input
-            type="checkbox"
-            checked={mutable}
-            className="checkbox border-deus-text"
-            onChange={checkboxOnChange}
+      <div className="form-control justify-between">
+        <div className="form-control items-center">
+          <TextInput
+            placeholder="Admin address"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyPress={inputOnKeyPress}
+            label="Press enter after entering admin address"
+            className="w-3/6 mb-3"
           />
-        </label>
-        <br />
-        <label className="label">
-          <span className="label-text text-deus-text">
-            Enter Code ID for the contract
-          </span>
-        </label>
-        <input
-          type="number"
-          placeholder="Code ID"
-          className="input input-bordered text-black"
-          value={codeId}
-          onChange={codeIdOnChange}
-        />
-        <br />
+          {admins.length !== 0 && (
+            <PrettyPrint data={admins} style={{ width: "70%" }} />
+          )}
+          <br />
+          <Checkbox
+            checked={mutable}
+            onChange={() => setMutable(!mutable)}
+            label="Are admins mutable?"
+          />
+          <br />
+          <TextInput
+            type="number"
+            placeholder="Code ID"
+            value={codeId}
+            onChange={codeIdOnChange}
+            label="Enter Code ID for the contract"
+            className="w-3/6"
+          />
+          <br />
+          <br />
+          <Button
+            onClick={instantiateOnClick}
+            className="btn-primary text-lg w-3/6"
+            text="Instantiate"
+            loading={loading}
+          />
+          <br />
+          <TransactionHash txHash={txHash} />
+        </div>
       </div>
-      <br />
-      <button
-        onClick={instantiateOnClick}
-        className={`btn btn-primary ${loading ? "loading" : ""}`}
-      >
-        {!loading && "Instantiate"}
-      </button>
-      <br />
-      {txHash !== "" && (
-        <span className="text-deus-text">Transaction Hash: {txHash}</span>
-      )}
     </SectionLayout>
   )
 }

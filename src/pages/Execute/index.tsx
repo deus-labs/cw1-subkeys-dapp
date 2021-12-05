@@ -20,8 +20,6 @@ const Execute = (): JSX.Element => {
     <SectionLayout>
       <WalletAddress />
       <ContractAddress />
-      <br />
-
       <select
         className="select select-bordered w-full max-w-xs text-black"
         onChange={optionOnChange}

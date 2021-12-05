@@ -47,6 +47,7 @@ export function useKeplr() {
         init(signer)
       })
       .catch((err) => {
+        setInitializing(false)
         errorToast(err.message)
       })
   }, [init])

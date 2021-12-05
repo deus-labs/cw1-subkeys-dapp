@@ -4,6 +4,7 @@ import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
 import { coin } from "@cosmjs/proto-signing"
 import { SendMsg } from "src/contracts/cw1-subkeys"
+import TextInput from "src/components/TextInput"
 
 const SendTokens = (): JSX.Element => {
   const wallet = useWallet()
@@ -45,15 +46,11 @@ const SendTokens = (): JSX.Element => {
 
   return (
     <div className="form-control">
-      <label className="label">
-        <span className="label-text text-deus-text">Address to send</span>
-      </label>
-      <input
-        type="text"
+      <TextInput
         placeholder="Address"
-        className="input input-bordered text-black"
         value={addressToSend}
         onChange={(e) => setAddressToSend(e.target.value)}
+        label="Address to send"
       />
       <label className="label">
         <span className="label-text text-deus-text">Amount to send</span>

@@ -3,13 +3,18 @@ import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism"
 
 interface PrettyPrintProps {
   data: any
+  style?: object
 }
 
-const PrettyPrint = ({ data }: PrettyPrintProps): JSX.Element => {
+const PrettyPrint = ({ data, style = {} }: PrettyPrintProps): JSX.Element => {
   if (!data) return <></>
 
   return (
-    <SyntaxHighlighter language="json" style={okaidia}>
+    <SyntaxHighlighter
+      customStyle={{ ...style }}
+      language="json"
+      style={okaidia}
+    >
       {JSON.stringify(data, null, 2)}
     </SyntaxHighlighter>
   )
