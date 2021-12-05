@@ -4,6 +4,12 @@ import { useContracts } from "src/contracts"
 import { config } from "src/config"
 import { errorToast } from "src/utils"
 import { coin } from "@cosmjs/proto-signing"
+import Button from "src/components/Button"
+import TransactionHash from "src/components/TransactionHash"
+import TextInput from "src/components/TextInput"
+import Dropdown from "src/components/Dropdown"
+
+const DROPDOWN_OPTIONS = ["Never", "At height", "At time"]
 
 const IncreaseAllowance = (): JSX.Element => {
   const wallet = useWallet()
@@ -53,62 +59,49 @@ const IncreaseAllowance = (): JSX.Element => {
   }
 
   return (
-    <div className="form-control">
-      <label className="label">
-        <span className="label-text text-deus-text">
-          Address to increase allowance
-        </span>
-      </label>
-      <input
-        type="text"
-        placeholder="Address"
-        className="input input-bordered text-black"
+    <div className="form-control items-center">
+      <TextInput
+        label="Address to increase allowance"
         value={allowanceAddress}
         onChange={(e) => setAllowanceAddress(e.target.value)}
+        placeholder="Address"
       />
-      <label className="label">
-        <span className="label-text text-deus-text">Amount to increase</span>
-      </label>
-      <input
+      <TextInput
         type="number"
-        placeholder="Amount"
-        className="input input-bordered text-black"
+        label="Amount to increase"
         value={allowanceAmount}
         onChange={(e) => setAllowanceAmount(e.target.value)}
+        placeholder="Amount"
       />
       <br />
-      <label className="label">
-        <span className="label-text text-deus-text">Expiration</span>
-      </label>
-      <select
-        className="select select-bordered w-full max-w-xs text-black"
-        onChange={(e) => setExpiration(e.target.value)}
-        value={expiration}
-      >
-        <option value="never">Never</option>
-        <option value="at-height">At Height</option>
-        <option value="at-time">At Time</option>
-      </select>
-      <br />
-      {(expiration === "at-height" || expiration === "at-time") && (
-        <input
-          type="number"
-          placeholder={expiration === "at-height" ? "Block height" : "Time"}
-          className="input input-bordered text-black"
-          value={expirationValue}
-          onChange={(e) => setExpirationValue(e.target.value)}
+      <div className="flex items-center w-5/6 my-3">
+        <Dropdown
+          label="Select expiration time"
+          onChange={(e) => {
+            setExpirationValue("")
+            setExpiration(e.target.value)
+          }}
+          value={expiration}
+          options={DROPDOWN_OPTIONS}
         />
-      )}
-      <button
+        {(expiration === "at-height" || expiration === "at-time") && (
+          <TextInput
+            type="number"
+            placeholder={expiration === "at-height" ? "Block height" : "Time"}
+            value={expirationValue}
+            onChange={(e) => setExpirationValue(e.target.value)}
+            width="w-44"
+          />
+        )}
+      </div>
+      <br />
+      <Button
         onClick={execute}
-        className={`btn btn-primary ${loading ? "loading" : ""}`}
-      >
-        {!loading && "Execute"}
-      </button>
-
-      {txHash !== "" && (
-        <span className="text-deus-text">Transaction Hash: {txHash}</span>
-      )}
+        loading={loading}
+        text="Execute"
+        className="btn-primary"
+      />
+      <TransactionHash txHash={txHash} />
     </div>
   )
 }

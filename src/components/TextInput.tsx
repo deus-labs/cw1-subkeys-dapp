@@ -6,6 +6,7 @@ interface InputProps {
   onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void
   className?: string
   label?: string
+  width?: string
 }
 
 const Input = ({
@@ -16,6 +17,7 @@ const Input = ({
   className = "",
   onKeyPress = () => {},
   label = "",
+  width = "w-3/6",
 }: InputProps): JSX.Element => {
   return (
     <>
@@ -27,7 +29,7 @@ const Input = ({
       <input
         type={type}
         placeholder={placeholder}
-        className={`input input-bordered bg-white text-deus-dark font-bold w-3/6 ${className}`}
+        className={`input input-bordered bg-white text-deus-dark font-bold ${width} ${className}`}
         value={value}
         onChange={onChange}
         onKeyPress={onKeyPress}
