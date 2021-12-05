@@ -2,6 +2,10 @@ import React, { useState } from "react"
 import { useWallet } from "src/services/wallet"
 import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
+import TextInput from "src/components/TextInput"
+import Button from "src/components/Button"
+import TransactionHash from "src/components/TransactionHash"
+import PrettyPrint from "src/components/PrettyPrint"
 
 const UpdateAdmins = (): JSX.Element => {
   const wallet = useWallet()
@@ -19,10 +23,6 @@ const UpdateAdmins = (): JSX.Element => {
       setAdmins([...admins, input])
       setInput("")
     }
-  }
-
-  const inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value)
   }
 
   const execute = () => {
@@ -47,38 +47,28 @@ const UpdateAdmins = (): JSX.Element => {
   }
 
   return (
-    <>
-      {admins.map((addr) => {
-        return <div>Admin: {addr}</div>
-      })}
-      <br />
-      <div className="form-control">
-        <label className="label">
-          <span className="label-text text-deus-text">
-            Press enter after entering admin address
-          </span>
-        </label>
-        <input
-          type="text"
-          placeholder="Admin address"
-          className="input input-bordered text-black"
-          onKeyPress={inputOnKeyPress}
-          value={input}
-          onChange={inputOnChange}
-        />
-      </div>
-      <br />
-      <button
-        onClick={execute}
-        className={`btn btn-primary ${loading ? "loading" : ""}`}
-      >
-        {!loading && "Execute"}
-      </button>
-      <br />
-      {txHash !== "" && (
-        <span className="text-deus-text">Transaction Hash: {txHash}</span>
+    <div className="form-control items-center">
+      <TextInput
+        placeholder="Admin address"
+        onKeyPress={inputOnKeyPress}
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        label="Press enter after entering admin address"
+        className="mb-3"
+      />
+      {admins.length !== 0 && (
+        <PrettyPrint data={admins} style={{ width: "70%" }} />
       )}
-    </>
+      <br />
+      <Button
+        className="btn-primary"
+        onClick={execute}
+        text="Execute"
+        loading={loading}
+      />
+      <br />
+      <TransactionHash txHash={txHash} />
+    </div>
   )
 }
 

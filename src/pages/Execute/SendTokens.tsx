@@ -70,6 +70,7 @@ const SendTokens = (): JSX.Element => {
         text="Execute"
         className="btn-primary"
       />
+      <br />
       <TransactionHash txHash={txHash} />
     </div>
   )
