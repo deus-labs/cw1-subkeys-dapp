@@ -50,55 +50,47 @@ const SetPermissions = (): JSX.Element => {
         className="text-center"
       />
       <br />
-      <div className="flex items-center w-4/6 justify-evenly">
-        <div className="bg-gray-700 p-2 rounded-lg bg-opacity-40">
-          <Checkbox
-            checked={permissions.delegate}
-            onChange={() =>
-              setPermissions({
-                ...permissions,
-                delegate: !permissions.delegate,
-              })
-            }
-            label="Delegate"
-          />
-        </div>
-        <div className="bg-gray-700 p-2 rounded-lg bg-opacity-40">
-          <Checkbox
-            checked={permissions.undelegate}
-            onChange={() =>
-              setPermissions({
-                ...permissions,
-                undelegate: !permissions.undelegate,
-              })
-            }
-            label="Undelegate"
-          />
-        </div>
-        <div className="bg-gray-700 p-2 rounded-lg bg-opacity-40">
-          <Checkbox
-            checked={permissions.redelegate}
-            onChange={() =>
-              setPermissions({
-                ...permissions,
-                redelegate: !permissions.redelegate,
-              })
-            }
-            label="Redelegate"
-          />
-        </div>
-        <div className="bg-gray-700 p-2 rounded-lg bg-opacity-40">
-          <Checkbox
-            checked={permissions.withdraw}
-            onChange={() =>
-              setPermissions({
-                ...permissions,
-                withdraw: !permissions.withdraw,
-              })
-            }
-            label="Withdraw"
-          />
-        </div>
+      <div className="flex items-center w-4/6 justify-between">
+        <Checkbox
+          checked={permissions.delegate}
+          onChange={() =>
+            setPermissions({
+              ...permissions,
+              delegate: !permissions.delegate,
+            })
+          }
+          label="Delegate"
+        />
+        <Checkbox
+          checked={permissions.undelegate}
+          onChange={() =>
+            setPermissions({
+              ...permissions,
+              undelegate: !permissions.undelegate,
+            })
+          }
+          label="Undelegate"
+        />
+        <Checkbox
+          checked={permissions.redelegate}
+          onChange={() =>
+            setPermissions({
+              ...permissions,
+              redelegate: !permissions.redelegate,
+            })
+          }
+          label="Redelegate"
+        />
+        <Checkbox
+          checked={permissions.withdraw}
+          onChange={() =>
+            setPermissions({
+              ...permissions,
+              withdraw: !permissions.withdraw,
+            })
+          }
+          label="Withdraw"
+        />
       </div>
       <br />
       <Button

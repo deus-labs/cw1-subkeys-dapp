@@ -23,7 +23,7 @@ const ContractAddress = (): JSX.Element => {
       </div>
       <TextInput
         placeholder="Enter contract address"
-        className="ml-2 w-4/6 text-center"
+        className="ml-2 w-4/6 text-center px-3"
         value={contractAddress}
         onChange={(e) => setContractAddress(e.target.value)}
       />

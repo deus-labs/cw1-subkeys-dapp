@@ -37,7 +37,7 @@ const Admins = (): JSX.Element => {
         className="btn-primary"
       />
       <br />
-      <PrettyPrint data={admins} style={{ width: "80%" }} />
+      <PrettyPrint data={admins} style={{ width: "95%" }} />
     </div>
   )
 }

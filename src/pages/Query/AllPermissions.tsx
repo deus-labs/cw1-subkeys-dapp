@@ -3,6 +3,7 @@ import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
 import PrettyPrint from "src/components/PrettyPrint"
 import { PermissionsInfo } from "src/contracts/cw1-subkeys"
+import Button from "src/components/Button"
 
 const AllPermissions = (): JSX.Element => {
   const contract = useContracts().cw1Subkeys?.use()
@@ -27,16 +28,16 @@ const AllPermissions = (): JSX.Element => {
   }
 
   return (
-    <>
-      <button
+    <div className="form-control items-center">
+      <Button
         onClick={query}
-        className={`btn btn-primary ${loading ? "loading" : ""}`}
-      >
-        {!loading && "Query"}
-      </button>
-
-      <PrettyPrint data={data} />
-    </>
+        loading={loading}
+        text="Query"
+        className="btn-primary"
+      />
+      <br />
+      <PrettyPrint data={data} style={{ width: "95%" }} />
+    </div>
   )
 }
 

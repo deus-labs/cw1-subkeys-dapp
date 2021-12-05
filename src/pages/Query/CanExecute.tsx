@@ -14,6 +14,17 @@ import {
   UndelegateMsg,
   RedelegateMsg,
 } from "src/contracts/cw1-subkeys"
+import TextInput from "src/components/TextInput"
+import Button from "src/components/Button"
+import Dropdown from "src/components/Dropdown"
+
+const DROPDOWN_OPTIONS = [
+  "Send",
+  "Delegate",
+  "Undelegate",
+  "Redelegate",
+  // 'Withdraw'
+]
 
 const AllAllowances = (): JSX.Element => {
   const wallet = useWallet()
@@ -150,73 +161,59 @@ const AllAllowances = (): JSX.Element => {
   }
 
   return (
-    <div className="flex flex-col">
-      <label className="label">
-        <span className="label-text text-deus-text">
-          Select message to check
-        </span>
-      </label>
-      <select
-        className="select select-bordered w-full max-w-xs text-black"
+    <div className="form-control items-center">
+      <Dropdown
         onChange={(e) => {
+          setAmountToSend("")
           setOption(e.target.value)
         }}
         value={option}
-      >
-        <option value="send">Send</option>
-        <option value="delegate">Delegate</option>
-        <option value="undelegate">Undelegate</option>
-        <option value="redelegate">Redelegate</option>
-        <option value="withdraw">Withdraw</option>
-      </select>
-
+        options={DROPDOWN_OPTIONS}
+        label="Select execute message to check"
+        className="mb-3"
+      />
       {option === "send" && (
-        <input
-          type="text"
-          placeholder="Address"
-          className="input input-bordered text-black"
+        <TextInput
           value={addressToSend}
           onChange={(e) => setAddressToSend(e.target.value)}
+          placeholder="Address"
+          label="Address to send"
         />
       )}
       {(option === "delegate" || option === "undelegate") && (
-        <input
-          type="text"
-          placeholder="Source Validator Address"
-          className="input input-bordered text-black"
+        <TextInput
           value={srcValidatorAddress}
           onChange={(e) => setSrcValidatorAddress(e.target.value)}
+          placeholder={`${
+            option === "delegate" ? "Validator" : "Source validator"
+          } address`}
+          label={`Validator address to ${option}`}
         />
       )}
       {option === "redelegate" && (
-        <input
-          type="text"
-          placeholder="Destination Validator Address"
-          className="input input-bordered text-black"
+        <TextInput
           value={dstValidatorAddress}
           onChange={(e) => setDstValidatorAddress(e.target.value)}
+          placeholder="Destination validator address"
+          label="Validator address to redelegate"
         />
       )}
-      {(option === "send" ||
-        option === "delegate" ||
-        option === "undelegate" ||
-        option === "redelegate") && (
-        <input
-          type="number"
-          placeholder="Amount"
-          className="input input-bordered text-black"
-          value={amountToSend}
-          onChange={(e) => setAmountToSend(e.target.value)}
-        />
-      )}
-      <button
+      <TextInput
+        type="number"
+        value={amountToSend}
+        onChange={(e) => setAmountToSend(e.target.value)}
+        placeholder="Amount"
+        label={`Amount to ${option}`}
+      />
+      <br />
+      <Button
+        className="btn-primary"
         onClick={query}
-        className={`btn btn-primary ${loading ? "loading" : ""}`}
-      >
-        {!loading && "Query"}
-      </button>
-
-      <PrettyPrint data={data} />
+        loading={loading}
+        text="Query"
+      />
+      <br />
+      <PrettyPrint data={data} style={{ width: "95%" }} />
     </div>
   )
 }

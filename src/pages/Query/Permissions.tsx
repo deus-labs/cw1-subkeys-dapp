@@ -3,8 +3,10 @@ import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
 import PrettyPrint from "src/components/PrettyPrint"
 import { PermissionsInfo } from "src/contracts/cw1-subkeys"
+import TextInput from "src/components/TextInput"
+import Button from "src/components/Button"
 
-const AllAllowances = (): JSX.Element => {
+const AllPermissions = (): JSX.Element => {
   const contract = useContracts().cw1Subkeys?.use()
 
   const [data, setData] = useState<PermissionsInfo>()
@@ -28,24 +30,25 @@ const AllAllowances = (): JSX.Element => {
   }
 
   return (
-    <>
-      <input
-        type="text"
+    <div className="form-control items-center">
+      <TextInput
         placeholder="Address"
-        className="input input-bordered text-black"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
+        label="Address to check permission"
+        className="text-center"
       />
-      <button
+      <br />
+      <Button
         onClick={query}
-        className={`btn btn-primary ${loading ? "loading" : ""}`}
-      >
-        {!loading && "Query"}
-      </button>
-
-      <PrettyPrint data={data} />
-    </>
+        loading={loading}
+        text="Query"
+        className="btn-primary"
+      />
+      <br />
+      <PrettyPrint data={data} style={{ width: "95%" }} />
+    </div>
   )
 }
 
-export default AllAllowances
+export default AllPermissions

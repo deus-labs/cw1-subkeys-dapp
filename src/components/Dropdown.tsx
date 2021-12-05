@@ -3,6 +3,7 @@ interface DropdownProps {
   value: string
   options: string[]
   label?: string
+  className?: string
 }
 
 const Dropdown = ({
@@ -10,6 +11,7 @@ const Dropdown = ({
   value,
   options,
   label = "",
+  className = "",
 }: DropdownProps): JSX.Element => {
   return (
     <div className="flex items-center w-full justify-center">
@@ -19,7 +21,7 @@ const Dropdown = ({
         </label>
       )}
       <select
-        className="select select-bordered max-w-xs text-black bg-white w-full"
+        className={`select select-bordered max-w-xs text-black bg-white w-full ${className}`}
         onChange={onChange}
         value={value}
       >
