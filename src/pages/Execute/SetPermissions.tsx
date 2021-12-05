@@ -47,7 +47,6 @@ const SetPermissions = (): JSX.Element => {
         placeholder="Address"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
-        className="text-center"
       />
       <br />
       <div className="flex items-center w-4/6 justify-between">

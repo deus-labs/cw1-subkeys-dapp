@@ -17,7 +17,7 @@ const ContractAddress = (): JSX.Element => {
   }, [contractAddress, contract])
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mt-2">
       <div className="flex justify-center text-lg font-bold items-center">
         <span className="text-deus-text">Contract address:</span>
       </div>

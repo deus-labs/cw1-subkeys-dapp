@@ -37,7 +37,6 @@ const AllAllowances = (): JSX.Element => {
         value={address}
         onChange={(e) => setAddress(e.target.value)}
         label="Address to check allowance"
-        className="text-center"
       />
       <br />
       <Button

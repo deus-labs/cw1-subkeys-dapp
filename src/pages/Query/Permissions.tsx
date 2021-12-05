@@ -36,7 +36,6 @@ const AllPermissions = (): JSX.Element => {
         value={address}
         onChange={(e) => setAddress(e.target.value)}
         label="Address to check permission"
-        className="text-center"
       />
       <br />
       <Button
