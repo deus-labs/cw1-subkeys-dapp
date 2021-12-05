@@ -2,12 +2,13 @@ import { useState } from "react"
 import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
 import PrettyPrint from "src/components/PrettyPrint"
+import Button from "src/components/Button"
 
 const Admins = (): JSX.Element => {
   const contract = useContracts().cw1Subkeys?.use()
 
   const [admins, setAdmins] = useState<readonly string[]>()
-  const [isMutable, setIsMutable] = useState<boolean>(false)
+  // const [isMutable, setIsMutable] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
   const query = () => {
@@ -19,7 +20,7 @@ const Admins = (): JSX.Element => {
       .then((data) => {
         setLoading(false)
         setAdmins(data.admins)
-        setIsMutable(data.mutable)
+        // setIsMutable(data.mutable)
       })
       .catch((err) => {
         setLoading(false)
@@ -28,17 +29,16 @@ const Admins = (): JSX.Element => {
   }
 
   return (
-    <>
-      <button
+    <div className="form-control items-center">
+      <Button
         onClick={query}
-        className={`btn btn-primary ${loading ? "loading" : ""}`}
-      >
-        {!loading && "Query"}
-      </button>
-
-      <PrettyPrint data={admins} />
-      <div>{isMutable}</div>
-    </>
+        loading={loading}
+        text="Query"
+        className="btn-primary"
+      />
+      <br />
+      <PrettyPrint data={admins} style={{ width: "80%" }} />
+    </div>
   )
 }
 
