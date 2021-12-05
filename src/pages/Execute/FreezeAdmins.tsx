@@ -2,6 +2,8 @@ import { useState } from "react"
 import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
 import { useWallet } from "src/services/wallet"
+import Button from "src/components/Button"
+import TransactionHash from "src/components/TransactionHash"
 
 const FreezeAdmins = (): JSX.Element => {
   const wallet = useWallet()
@@ -28,17 +30,15 @@ const FreezeAdmins = (): JSX.Element => {
   }
 
   return (
-    <div className="form-control">
-      <button
+    <div className="form-control items-center">
+      <Button
+        className="btn-primary mt-3"
         onClick={execute}
-        className={`btn btn-primary ${loading ? "loading" : ""}`}
-      >
-        {!loading && "Execute"}
-      </button>
-
-      {txHash !== "" && (
-        <span className="text-deus-text">Transaction Hash: {txHash}</span>
-      )}
+        loading={loading}
+        text="Execute"
+      />
+      <br />
+      <TransactionHash txHash={txHash} />
     </div>
   )
 }
