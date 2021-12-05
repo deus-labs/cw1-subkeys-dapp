@@ -9,7 +9,7 @@ interface InputProps {
   width?: string
 }
 
-const Input = ({
+const TextInput = ({
   type = "text",
   placeholder,
   value,
@@ -38,4 +38,4 @@ const Input = ({
   )
 }
 
-export default Input
+export default TextInput

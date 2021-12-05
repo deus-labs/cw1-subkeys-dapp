@@ -3,6 +3,10 @@ import { useWallet } from "src/services/wallet"
 import { useContracts } from "src/contracts"
 import { errorToast } from "src/utils"
 import { Permissions } from "src/contracts/cw1-subkeys"
+import TextInput from "src/components/TextInput"
+import Checkbox from "src/components/Checkbox"
+import Button from "src/components/Button"
+import TransactionHash from "src/components/TransactionHash"
 
 const SetPermissions = (): JSX.Element => {
   const wallet = useWallet()
@@ -37,88 +41,74 @@ const SetPermissions = (): JSX.Element => {
   }
 
   return (
-    <div className="form-control">
-      <label className="label">
-        <span className="label-text text-deus-text">
-          Address to set permissions
-        </span>
-      </label>
-      <input
-        type="text"
+    <div className="form-control items-center">
+      <TextInput
+        label="Address to set permissions"
         placeholder="Address"
-        className="input input-bordered text-black"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
+        className="text-center"
       />
       <br />
-      <div className="form-control">
-        <label className="cursor-pointer label">
-          <span className="label-text text-deus-text">Delegate</span>
-          <input
-            type="checkbox"
+      <div className="flex items-center w-4/6 justify-evenly">
+        <div className="bg-gray-700 p-2 rounded-lg bg-opacity-40">
+          <Checkbox
             checked={permissions.delegate}
-            className="checkbox border-deus-text"
             onChange={() =>
               setPermissions({
                 ...permissions,
                 delegate: !permissions.delegate,
               })
             }
+            label="Delegate"
           />
-        </label>
-        <label className="cursor-pointer label">
-          <span className="label-text text-deus-text">Undelegate</span>
-          <input
-            type="checkbox"
+        </div>
+        <div className="bg-gray-700 p-2 rounded-lg bg-opacity-40">
+          <Checkbox
             checked={permissions.undelegate}
-            className="checkbox border-deus-text"
             onChange={() =>
               setPermissions({
                 ...permissions,
                 undelegate: !permissions.undelegate,
               })
             }
+            label="Undelegate"
           />
-        </label>
-        <label className="cursor-pointer label">
-          <span className="label-text text-deus-text">Redelegate</span>
-          <input
-            type="checkbox"
+        </div>
+        <div className="bg-gray-700 p-2 rounded-lg bg-opacity-40">
+          <Checkbox
             checked={permissions.redelegate}
-            className="checkbox border-deus-text"
             onChange={() =>
               setPermissions({
                 ...permissions,
                 redelegate: !permissions.redelegate,
               })
             }
+            label="Redelegate"
           />
-        </label>
-        <label className="cursor-pointer label">
-          <span className="label-text text-deus-text">Withdraw</span>
-          <input
-            type="checkbox"
+        </div>
+        <div className="bg-gray-700 p-2 rounded-lg bg-opacity-40">
+          <Checkbox
             checked={permissions.withdraw}
-            className="checkbox border-deus-text"
             onChange={() =>
               setPermissions({
                 ...permissions,
                 withdraw: !permissions.withdraw,
               })
             }
+            label="Withdraw"
           />
-        </label>
+        </div>
       </div>
-      <button
+      <br />
+      <Button
         onClick={execute}
-        className={`btn btn-primary ${loading ? "loading" : ""}`}
-      >
-        {!loading && "Execute"}
-      </button>
-
-      {txHash !== "" && (
-        <span className="text-deus-text">Transaction Hash: {txHash}</span>
-      )}
+        loading={loading}
+        className="btn-primary"
+        text="Execute"
+      />
+      <br />
+      <TransactionHash txHash={txHash} />
     </div>
   )
 }
