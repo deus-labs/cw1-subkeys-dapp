@@ -21,7 +21,7 @@ const Dropdown = ({
         </label>
       )}
       <select
-        className={`select select-bordered max-w-xs text-black bg-white w-full ${className}`}
+        className={`select select-bordered max-w-xs bg-gray-300 text-deus-gray w-full ${className}`}
         onChange={onChange}
         value={value}
       >

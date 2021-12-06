@@ -34,6 +34,8 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
     else connect()
   }
 
+  console.log(location)
+
   return (
     <div className="shadow bg-deus-dark drawer drawer-mobile h-full w-screen">
       <input id="sidebar" type="checkbox" className="drawer-toggle" />
@@ -55,12 +57,14 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
           </li> */}
           <li className="mb-2">
             <Link
-              className={`capitalize font-bold text-xl ${
-                location.pathname === `/${instantiatePath}`
-                  ? "bg-deus-purple"
-                  : ""
-              }`}
+              className="capitalize font-bold text-xl"
               to={`/${instantiatePath}`}
+              style={{
+                backgroundColor:
+                  location.pathname === `/${instantiatePath}`
+                    ? "#6715FF"
+                    : "transparent",
+              }}
             >
               <FaPlay className="mr-4" />
               {instantiatePath}
@@ -68,10 +72,14 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
           </li>
           <li className="mb-2">
             <Link
-              className={`capitalize font-bold text-xl ${
-                location.pathname === `/${executePath}` ? "bg-deus-purple" : ""
-              }`}
+              className="capitalize font-bold text-xl"
               to={`/${executePath}`}
+              style={{
+                backgroundColor:
+                  location.pathname === `/${executePath}`
+                    ? "#6715FF"
+                    : "transparent",
+              }}
             >
               <FaMicrochip className="mr-4" />
               {executePath}
@@ -79,10 +87,14 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
           </li>
           <li>
             <Link
-              className={`capitalize font-bold text-xl ${
-                location.pathname === `/${queryPath}` ? "bg-deus-purple" : ""
-              }`}
+              className="capitalize font-bold text-xl"
               to={`/${queryPath}`}
+              style={{
+                backgroundColor:
+                  location.pathname === `/${queryPath}`
+                    ? "#6715FF"
+                    : "transparent",
+              }}
             >
               <FaSolarPanel className="mr-4" />
               {queryPath}

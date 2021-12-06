@@ -29,7 +29,7 @@ const TextInput = ({
       <input
         type={type}
         placeholder={placeholder}
-        className={`input input-bordered bg-white text-deus-dark font-bold ${width} ${className}`}
+        className={`input input-bordered placeholder-gray-500 bg-gray-300 text-deus-gray font-bold ${width} ${className}`}
         value={value}
         onChange={onChange}
         onKeyPress={onKeyPress}
