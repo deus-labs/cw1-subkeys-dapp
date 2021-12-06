@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "CW1 Subkeys dApp",
+  "name": "dApp for communicating with CW1 Subkeys contracts",
   "icons": [
     {
       "src": "favicon.ico",
