@@ -5,7 +5,6 @@ import { errorToast } from "src/utils"
 import TextInput from "src/components/TextInput"
 import PrettyPrint from "src/components/PrettyPrint"
 import Checkbox from "src/components/Checkbox"
-import WalletAddress from "src/components/WalletAddress"
 import Button from "src/components/Button"
 import TransactionHash from "src/components/TransactionHash"
 
@@ -59,8 +58,6 @@ const Instantiate = (): JSX.Element => {
 
   return (
     <SectionLayout>
-      <WalletAddress />
-      <br />
       <div className="form-control items-center">
         <TextInput
           placeholder="Admin address"

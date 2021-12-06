@@ -34,8 +34,6 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
     else connect()
   }
 
-  console.log(location)
-
   return (
     <div className="shadow bg-deus-dark drawer drawer-mobile h-full w-screen">
       <input id="sidebar" type="checkbox" className="drawer-toggle" />

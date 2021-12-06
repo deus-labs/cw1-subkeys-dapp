@@ -6,7 +6,6 @@ import DecreaseAllowace from "./DecreaseAllowace"
 import UpdateAdmins from "./UpdateAdmins"
 import FreezeAdmins from "./FreezeAdmins"
 import SetPermissions from "./SetPermissions"
-import WalletAddress from "src/components/WalletAddress"
 import ContractAddress from "src/components/ContractAddress"
 import Dropdown from "src/components/Dropdown"
 
@@ -24,7 +23,6 @@ const Execute = (): JSX.Element => {
 
   return (
     <SectionLayout>
-      <WalletAddress />
       <ContractAddress />
       <br />
       <Dropdown

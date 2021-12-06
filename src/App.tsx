@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 import { WalletProvider } from "./services/wallet"
 import { ContractsProvider } from "./contracts"
@@ -8,7 +13,7 @@ import {
   instantiatePath,
   queryPath /* contractPath */,
 } from "./routes"
-import { ProtectedSwitch } from "./routes/ProtectedSwitch"
+// import { ProtectedSwitch } from "./routes/ProtectedSwitch"
 import Welcome from "./pages/Welcome"
 // import Contract from "./pages/Contract"
 import Instantiate from "./pages/Instantiate"
@@ -24,8 +29,15 @@ const App = (): JSX.Element => {
           <PageLayout>
             <Switch>
               <Route exact path="/" component={Welcome} />
-              <ProtectedSwitch>
-                {/* <Route exact path={`/${contractPath}`} component={Contract} /> */}
+              <Route
+                exact
+                path={`/${instantiatePath}`}
+                component={Instantiate}
+              />
+              <Route exact path={`/${executePath}`} component={Execute} />
+              <Route exact path={`/${queryPath}`} component={Query} />
+              {/* <ProtectedSwitch>
+                <Route exact path={`/${contractPath}`} component={Contract} />
                 <Route
                   exact
                   path={`/${instantiatePath}`}
@@ -33,7 +45,8 @@ const App = (): JSX.Element => {
                 />
                 <Route exact path={`/${executePath}`} component={Execute} />
                 <Route exact path={`/${queryPath}`} component={Query} />
-              </ProtectedSwitch>
+              </ProtectedSwitch> */}
+              <Redirect to="/" />
             </Switch>
           </PageLayout>
         </Router>

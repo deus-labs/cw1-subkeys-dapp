@@ -6,7 +6,6 @@ import Allowances from "./Allowances"
 import AllPermissions from "./AllPermissions"
 import Permissions from "./Permissions"
 import CanExecute from "./CanExecute"
-import WalletAddress from "src/components/WalletAddress"
 import ContractAddress from "src/components/ContractAddress"
 import Dropdown from "src/components/Dropdown"
 
@@ -24,7 +23,6 @@ const Query = (): JSX.Element => {
 
   return (
     <SectionLayout>
-      <WalletAddress />
       <ContractAddress />
       <br />
       <Dropdown
