@@ -16,16 +16,21 @@ const Button = ({
   const wallet = useWallet()
 
   return (
-    <button
-      onClick={onClick}
-      className={`btn ${
-        loading ? "loading" : ""
-      } capitalize ${className} w-3/6 text-lg`}
-      disabled={!wallet.initialized}
-      style={{ color: "white" }}
+    <div
+      data-tip="Connect wallet to continue"
+      className={`${!wallet.initialized ? "tooltip" : ""} w-3/6`}
     >
-      {!loading && text}
-    </button>
+      <button
+        onClick={onClick}
+        className={`btn ${
+          loading ? "loading" : ""
+        } capitalize ${className} w-full text-lg`}
+        disabled={!wallet.initialized}
+        style={{ color: "white" }}
+      >
+        {!loading && text}
+      </button>
+    </div>
   )
 }
 
