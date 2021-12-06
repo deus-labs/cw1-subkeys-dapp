@@ -6,6 +6,7 @@ import Button from "src/components/Button"
 import TransactionHash from "src/components/TransactionHash"
 import TextInput from "src/components/TextInput"
 import Dropdown from "src/components/Dropdown"
+import { Expiration } from "src/contracts/cw1-subkeys"
 
 const DROPDOWN_OPTIONS = ["Never", "At height", "At time"]
 
@@ -26,21 +27,21 @@ const IncreaseAllowance = (): JSX.Element => {
     if (expiration !== "never" && expirationValue === "")
       return errorToast("Enter an expiration time.")
 
-    let expirationTime: any = {
+    let expirationTime: Expiration = {
       never: {},
     }
-    if (expiration === "at-height") {
-      expirationTime = { at_height: { height: expirationValue } }
+    if (expiration === "at-height" && !isNaN(Number(expirationValue))) {
+      expirationTime = { at_height: Number(expirationValue) }
     }
-    if (expiration === "at-time") {
-      expirationTime = { at_time: { time: expirationValue } }
+    if (expiration === "at-time" && !isNaN(Number(expirationValue))) {
+      expirationTime = { at_time: expirationValue }
     }
 
     const amount = convertToNativeCoin(allowanceAmount)
     if (!amount) return errorToast("Enter a valid amount.")
 
     setLoading(true)
-
+    console.log(expirationTime)
     contract
       .increaseAllowance(
         wallet.address,

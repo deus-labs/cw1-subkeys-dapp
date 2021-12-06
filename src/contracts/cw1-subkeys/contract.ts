@@ -9,9 +9,9 @@ interface ExecuteFeeOptions {
   gasPrice: GasPrice
 }
 
-type Expiration =
-  | { at_height: { height: number } }
-  | { at_time: { time: number } }
+export type Expiration =
+  | { at_height: number }
+  | { at_time: string }
   | { never: {} }
 
 export interface CanExecuteResponse {

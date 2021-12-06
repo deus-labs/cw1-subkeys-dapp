@@ -32,8 +32,8 @@ const Instantiate = (): JSX.Element => {
   }
 
   const instantiateOnClick = () => {
-    if (codeId === "" || admins.length === 0) {
-      errorToast("Fill required fields")
+    if (admins.length === 0) {
+      errorToast("Enter admin addresses to continue.")
       return
     }
     if (!contract) return
@@ -42,7 +42,7 @@ const Instantiate = (): JSX.Element => {
 
     contract
       .instantiate({
-        codeId: parseInt(codeId),
+        codeId: codeId !== "" ? parseInt(codeId) : 200,
         initMsg: { admins, mutable },
         label: "cw1-subkeys-contract",
       })
@@ -79,7 +79,7 @@ const Instantiate = (): JSX.Element => {
         </div>
         <TextInput
           type="number"
-          placeholder="Code ID"
+          placeholder="Code ID (default is 200)"
           value={codeId}
           onChange={codeIdOnChange}
           label="Enter Code ID for the contract"
