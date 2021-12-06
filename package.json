@@ -2,7 +2,7 @@
   "name": "cw1-subkeys-dapp",
   "version": "0.1.0",
   "private": false,
-  "homepage": "https://deus-labs.github.io/cw1-subkeys-dapp",
+  "homepage": "https://subkeys.deuslabs.fi",
   "dependencies": {
     "@cosmjs/cosmwasm-stargate": "^0.26.4",
     "@cosmjs/proto-signing": "^0.26.4",

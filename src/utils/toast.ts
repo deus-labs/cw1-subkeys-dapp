@@ -2,38 +2,36 @@ import { toast as Toast, ToastOptions } from "react-toastify"
 
 const config: ToastOptions = {
   hideProgressBar: true,
-  closeOnClick: true,
+  closeOnClick: false,
   pauseOnHover: false,
   draggable: false,
   progress: undefined,
-  position: "top-center",
+  position: "top-left",
+  autoClose: false,
+  style: { width: "fit-content" },
 }
 
-export function infoToast(message: string, duration = 3000) {
+export function infoToast(message: string) {
   Toast.info(message, {
     ...config,
-    autoClose: duration,
   })
 }
 
-export function warnToast(message: string, duration = 3000) {
+export function warnToast(message: string) {
   Toast.warn(message, {
     ...config,
-    autoClose: duration,
   })
 }
 
-export function successToast(message: string, duration = 3000) {
+export function successToast(message: string) {
   Toast.success(message, {
     ...config,
-    autoClose: duration,
   })
 }
 
-export function errorToast(message: string, duration = 3000) {
+export function errorToast(message: string) {
   Toast.error(message, {
     ...config,
-    autoClose: duration,
   })
 }
 
@@ -41,8 +39,7 @@ export function promiseToast(
   callback: any,
   pendingMessage: string,
   successMessage: string,
-  errorMessage: string,
-  duration = 3000
+  errorMessage: string
 ) {
   Toast.promise(
     callback,
@@ -51,6 +48,6 @@ export function promiseToast(
       success: successMessage,
       error: errorMessage,
     },
-    { ...config, autoClose: duration }
+    { ...config }
   )
 }

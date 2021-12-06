@@ -1,9 +1,7 @@
 import { useState } from "react"
 import { useWallet } from "src/services/wallet"
 import { useContracts } from "src/contracts"
-import { config } from "src/config"
-import { errorToast } from "src/utils"
-import { coin } from "@cosmjs/proto-signing"
+import { convertToNativeCoin, errorToast } from "src/utils"
 import Button from "src/components/Button"
 import TransactionHash from "src/components/TransactionHash"
 import TextInput from "src/components/TextInput"
@@ -25,7 +23,6 @@ const IncreaseAllowance = (): JSX.Element => {
   const execute = () => {
     if (!contract) return errorToast("Contract is not initialized.")
     if (allowanceAddress === "") return errorToast("Enter an address to send.")
-    if (allowanceAmount === "") return errorToast("Enter an amount to send.")
     if (expiration !== "never" && expirationValue === "")
       return errorToast("Enter an expiration time.")
 
@@ -39,13 +36,16 @@ const IncreaseAllowance = (): JSX.Element => {
       expirationTime = { at_time: { time: expirationValue } }
     }
 
+    const amount = convertToNativeCoin(allowanceAmount)
+    if (!amount) return errorToast("Enter a valid amount.")
+
     setLoading(true)
 
     contract
       .increaseAllowance(
         wallet.address,
         allowanceAddress,
-        coin(parseInt(allowanceAmount), config.feeToken),
+        amount,
         expirationTime
       )
       .then((hash) => {
@@ -71,7 +71,7 @@ const IncreaseAllowance = (): JSX.Element => {
         label="Amount to increase"
         value={allowanceAmount}
         onChange={(e) => setAllowanceAmount(e.target.value)}
-        placeholder="Amount"
+        placeholder="Juno amount"
       />
       <br />
       <div className="flex items-center w-5/6 my-3">

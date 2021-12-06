@@ -3,8 +3,7 @@ import {
   useContracts,
   // WithdrawMsg,
 } from "src/contracts"
-import { errorToast } from "src/utils"
-import { coin } from "@cosmjs/proto-signing"
+import { convertToNativeCoin, errorToast } from "src/utils"
 import { useWallet } from "src/services/wallet"
 import PrettyPrint from "src/components/PrettyPrint"
 import {
@@ -54,14 +53,16 @@ const AllAllowances = (): JSX.Element => {
   const checkSendMsg = () => {
     if (!contract) return errorToast("Contract is not initialized.")
     if (addressToSend === "") return errorToast("Enter an adress.")
-    if (amountToSend === "") return errorToast("Enter an amount.")
+
+    const amount = convertToNativeCoin(amountToSend)
+    if (!amount) return errorToast("Enter a valid amount.")
 
     const message: SendMsg = {
       bank: {
         send: {
           from_address: contract.contractAddress,
           to_address: addressToSend,
-          amount: [coin(parseInt(amountToSend), wallet.balance[0].denom)],
+          amount: [amount],
         },
       },
     }
@@ -81,13 +82,15 @@ const AllAllowances = (): JSX.Element => {
 
   const checkDelegateMsg = () => {
     if (srcValidatorAddress === "") return errorToast("Enter an adress.")
-    if (amountToSend === "") return errorToast("Enter an amount.")
+
+    const amount = convertToNativeCoin(amountToSend)
+    if (!amount) return errorToast("Enter a valid amount.")
 
     const message: DelegateMsg = {
       staking: {
         delegate: {
           validator: srcValidatorAddress,
-          amount: coin(parseInt(amountToSend), wallet.balance[0].denom),
+          amount: amount,
         },
       },
     }
@@ -109,11 +112,14 @@ const AllAllowances = (): JSX.Element => {
     if (srcValidatorAddress === "") return errorToast("Enter an adress.")
     if (amountToSend === "") return errorToast("Enter an amount.")
 
+    const amount = convertToNativeCoin(amountToSend)
+    if (!amount) return errorToast("Enter a valid amount.")
+
     const message: UndelegateMsg = {
       staking: {
         undelegate: {
           validator: srcValidatorAddress,
-          amount: coin(parseInt(amountToSend), wallet.balance[0].denom),
+          amount: amount,
         },
       },
     }
@@ -135,14 +141,16 @@ const AllAllowances = (): JSX.Element => {
     if (srcValidatorAddress === "") return errorToast("Enter a source adress.")
     if (dstValidatorAddress === "")
       return errorToast("Enter a destination adress.")
-    if (amountToSend === "") return errorToast("Enter an amount.")
+
+    const amount = convertToNativeCoin(amountToSend)
+    if (!amount) return errorToast("Enter a valid amount.")
 
     const message: RedelegateMsg = {
       staking: {
         redelegate: {
           src_validator: srcValidatorAddress,
           dst_validator: dstValidatorAddress,
-          amount: coin(parseInt(amountToSend), wallet.balance[0].denom),
+          amount: amount,
         },
       },
     }
@@ -202,7 +210,7 @@ const AllAllowances = (): JSX.Element => {
         type="number"
         value={amountToSend}
         onChange={(e) => setAmountToSend(e.target.value)}
-        placeholder="Amount"
+        placeholder="Juno amount"
         label={`Amount to ${option}`}
       />
       <br />
