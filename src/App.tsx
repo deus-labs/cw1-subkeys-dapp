@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 import { WalletProvider } from "./services/wallet"
 import { ContractsProvider } from "./contracts"
@@ -46,7 +41,6 @@ const App = (): JSX.Element => {
                 <Route exact path={`/${executePath}`} component={Execute} />
                 <Route exact path={`/${queryPath}`} component={Query} />
               </ProtectedSwitch> */}
-              <Redirect to="/" />
             </Switch>
           </PageLayout>
         </Router>
