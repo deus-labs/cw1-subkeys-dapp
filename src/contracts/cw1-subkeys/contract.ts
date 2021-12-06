@@ -9,6 +9,11 @@ interface ExecuteFeeOptions {
   gasPrice: GasPrice
 }
 
+export interface InstantiateResponse {
+  readonly contractAddress: string
+  readonly transactionHash: string
+}
+
 export type Expiration =
   | { at_height: number }
   | { at_time: string }
@@ -165,7 +170,7 @@ export interface CW1Contract {
     initMsg: Record<string, unknown>,
     label: string
     // admin?: string
-  ) => Promise<string>
+  ) => Promise<InstantiateResponse>
 
   use: (contractAddress: string) => CW1Instance
 }
@@ -333,7 +338,7 @@ export const CW1 = (
     initMsg: Record<string, unknown>,
     label: string
     // admin?: string
-  ): Promise<string> => {
+  ): Promise<InstantiateResponse> => {
     const fee = calculateFee(options.fees.init, options.gasPrice)
 
     const result = await client.instantiate(
@@ -343,7 +348,10 @@ export const CW1 = (
       label,
       fee
     )
-    return result.transactionHash
+    return {
+      contractAddress: result.contractAddress,
+      transactionHash: result.transactionHash,
+    }
   }
 
   return { use, instantiate }

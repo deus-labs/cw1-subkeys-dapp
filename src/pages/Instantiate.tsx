@@ -17,6 +17,7 @@ const Instantiate = (): JSX.Element => {
   const [admins, setAdmins] = useState<string[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [txHash, setTxHash] = useState<string>("")
+  const [contractAddress, setContractAddress] = useState<string>("")
 
   const inputOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (input === "") return
@@ -46,9 +47,10 @@ const Instantiate = (): JSX.Element => {
         initMsg: { admins, mutable },
         label: "cw1-subkeys-contract",
       })
-      .then((hash) => {
+      .then((data) => {
         setLoading(false)
-        setTxHash(hash)
+        setContractAddress(data.contractAddress)
+        setTxHash(data.transactionHash)
       })
       .catch((err) => {
         setLoading(false)
@@ -92,6 +94,12 @@ const Instantiate = (): JSX.Element => {
           loading={loading}
         />
         <br />
+        {contractAddress && (
+          <div className="flex p-3 bg-deus-pink text-white bg-gradient-to-r from-deus-pink to-deus-purple rounded-lg font-bold mb-2">
+            <div>Contract address: </div>
+            <div className="ml-2">{contractAddress}</div>
+          </div>
+        )}
         <TransactionHash txHash={txHash} />
       </div>
     </SectionLayout>

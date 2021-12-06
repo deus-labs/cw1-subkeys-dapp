@@ -2,6 +2,7 @@ import { GasPrice } from "@cosmjs/stargate"
 import { useCallback, useEffect, useState } from "react"
 import { config } from "src/config"
 import { useWallet } from "src/services/wallet"
+import { InstantiateResponse } from "."
 import { CW1Contract, CW1Instance, CW1 as CW1Init } from "./contract"
 interface InstantiateProps {
   codeId: number
@@ -10,7 +11,11 @@ interface InstantiateProps {
 }
 
 export interface UseCW1ContractProps {
-  instantiate: ({ codeId, initMsg, label }: InstantiateProps) => Promise<string>
+  instantiate: ({
+    codeId,
+    initMsg,
+    label,
+  }: InstantiateProps) => Promise<InstantiateResponse>
   use: () => CW1Instance | undefined
   updateContractAddress: (contractAddress: string) => void
 }
@@ -44,7 +49,11 @@ export function useCW1Contract(): UseCW1ContractProps {
   }
 
   const instantiate = useCallback(
-    ({ codeId, initMsg, label }: InstantiateProps): Promise<string> => {
+    ({
+      codeId,
+      initMsg,
+      label,
+    }: InstantiateProps): Promise<InstantiateResponse> => {
       return new Promise((resolve, reject) => {
         if (!CW1) return reject("Contract is not initialized.")
         CW1.instantiate(wallet.address, codeId, initMsg, label)
