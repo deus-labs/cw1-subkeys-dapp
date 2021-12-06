@@ -9,7 +9,7 @@ import { useKeplr } from "src/services/keplr"
 import { useWallet } from "src/services/wallet"
 import { Link } from "react-router-dom"
 import Navbar from "./Navbar"
-import { FaPlay, FaMicrochip, FaSolarPanel /* FaBook */ } from "react-icons/fa"
+import { FaPlay, FaMicrochip, FaSearch /* FaBook */ } from "react-icons/fa"
 import { useLocation } from "react-router-dom"
 
 interface SidebarProps {
@@ -66,7 +66,7 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
                     : "transparent",
               }}
             >
-              <FaPlay className="mr-4" />
+              <FaMicrochip className="mr-4" />
               {instantiatePath}
             </Link>
           </li>
@@ -81,7 +81,7 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
                     : "transparent",
               }}
             >
-              <FaMicrochip className="mr-4" />
+              <FaPlay className="mr-4" />
               {executePath}
             </Link>
           </li>
@@ -96,7 +96,7 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
                     : "transparent",
               }}
             >
-              <FaSolarPanel className="mr-4" />
+              <FaSearch className="mr-4" />
               {queryPath}
             </Link>
           </li>

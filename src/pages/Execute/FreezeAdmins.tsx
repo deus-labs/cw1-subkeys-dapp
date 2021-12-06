@@ -31,6 +31,10 @@ const FreezeAdmins = (): JSX.Element => {
 
   return (
     <div className="form-control items-center">
+      <div className="text-deus-red font-bold text-xl w-3/6 text-center my-5">
+        This is an irreversible action. <br /> You will not be able to update
+        the admins after this executing this message.
+      </div>
       <Button
         className="btn-primary mt-3"
         onClick={execute}
