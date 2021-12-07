@@ -107,13 +107,11 @@ const Sidebar = ({
           <li className="h-full justify-end pb-4">
             <Dropdown
               value={network}
-              onChange={(e) => {
-                setNetwork(e.target.value)
-              }}
-              options={["Juno"]}
+              onChange={(e) => setNetwork(e.target.value)}
+              options={["Juno Uni Testnet"]}
               label="Select network"
-              width="w-40"
               className="mb-3"
+              isColumn
             />
             <a
               href="https://deuslabs.fi"

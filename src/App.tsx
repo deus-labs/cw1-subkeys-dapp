@@ -18,7 +18,7 @@ import "react-toastify/dist/ReactToastify.css"
 import { useState } from "react"
 
 const App = (): JSX.Element => {
-  const [network, setNetwork] = useState<string>("juno")
+  const [network, setNetwork] = useState<string>("juno-uni-testnet")
 
   return (
     <WalletProvider>

@@ -5,6 +5,7 @@ interface DropdownProps {
   label?: string
   className?: string
   width?: string
+  isColumn?: boolean
 }
 
 const Dropdown = ({
@@ -14,9 +15,14 @@ const Dropdown = ({
   label = "",
   className = "",
   width = "w-full",
+  isColumn = false,
 }: DropdownProps): JSX.Element => {
   return (
-    <div className="flex items-center w-full justify-center">
+    <div
+      className={`flex ${
+        isColumn ? "flex-col" : ""
+      } items-center w-full justify-center`}
+    >
       {label !== "" && (
         <label className="label mr-3">
           <span className="label-text text-deus-text font-bold">{label}</span>
