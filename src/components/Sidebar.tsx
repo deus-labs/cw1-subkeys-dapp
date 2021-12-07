@@ -11,12 +11,18 @@ import { Link } from "react-router-dom"
 import Navbar from "./Navbar"
 import { FaPlay, FaMicrochip, FaSearch /* FaBook */ } from "react-icons/fa"
 import { useLocation } from "react-router-dom"
-
+import Dropdown from "./Dropdown"
 interface SidebarProps {
   content: JSX.Element
+  network: string
+  setNetwork: (network: string) => void
 }
 
-const Sidebar = ({ content }: SidebarProps): JSX.Element => {
+const Sidebar = ({
+  content,
+  network,
+  setNetwork,
+}: SidebarProps): JSX.Element => {
   const { initialized } = useWallet()
   const keplr = useKeplr()
   const location = useLocation()
@@ -56,7 +62,7 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
           <li className="mb-2">
             <Link
               className="capitalize font-bold text-xl"
-              to={`/${instantiatePath}`}
+              to={`/${network}/${instantiatePath}`}
               style={{
                 backgroundColor:
                   location.pathname === `/${instantiatePath}`
@@ -71,7 +77,7 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
           <li className="mb-2">
             <Link
               className="capitalize font-bold text-xl"
-              to={`/${executePath}`}
+              to={`/${network}/${executePath}`}
               style={{
                 backgroundColor:
                   location.pathname === `/${executePath}`
@@ -86,7 +92,7 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
           <li>
             <Link
               className="capitalize font-bold text-xl"
-              to={`/${queryPath}`}
+              to={`/${network}/${queryPath}`}
               style={{
                 backgroundColor:
                   location.pathname === `/${queryPath}`
@@ -99,6 +105,16 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
             </Link>
           </li>
           <li className="h-full justify-end pb-4">
+            <Dropdown
+              value={network}
+              onChange={(e) => {
+                setNetwork(e.target.value)
+              }}
+              options={["Juno"]}
+              label="Select network"
+              width="w-40"
+              className="mb-3"
+            />
             <a
               href="https://deuslabs.fi"
               target="_blank"
