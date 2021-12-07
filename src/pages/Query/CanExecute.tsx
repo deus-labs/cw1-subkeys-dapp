@@ -210,7 +210,7 @@ const AllAllowances = (): JSX.Element => {
         type="number"
         value={amountToSend}
         onChange={(e) => setAmountToSend(e.target.value)}
-        placeholder="Juno amount"
+        placeholder="ujuno amount"
         label={`Amount to ${option}`}
       />
       <br />

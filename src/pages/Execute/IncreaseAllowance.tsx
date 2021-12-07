@@ -72,7 +72,7 @@ const IncreaseAllowance = (): JSX.Element => {
         label="Amount to increase"
         value={allowanceAmount}
         onChange={(e) => setAllowanceAmount(e.target.value)}
-        placeholder="Juno amount"
+        placeholder="ujuno amount"
       />
       <br />
       <div className="flex items-center w-5/6 my-3">

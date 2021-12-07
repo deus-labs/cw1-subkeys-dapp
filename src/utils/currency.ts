@@ -13,5 +13,5 @@ export interface CoinMap {
 export function convertToNativeCoin(amount: string) {
   if (amount === "" || isNaN(Number(amount))) return null
 
-  return coin(Number(amount) * 1000000, config.feeToken)
+  return coin(Number(amount), config.feeToken)
 }

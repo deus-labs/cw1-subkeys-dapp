@@ -1,10 +1,20 @@
-import { FaArrowLeft } from "react-icons/fa"
+import { FaArrowLeft, FaGithub } from "react-icons/fa"
 
 const Welcome = (): JSX.Element => {
   return (
     <div className="p-6 bg-deus-black flex flex-col justify-end text-deus-text flex-1">
       <div className="">
-        <div className="text-5xl font-bold mb-5">CW1 Subkeys</div>
+        <div className="text-5xl font-bold mb-5">
+          <a
+            href="https://github.com/CosmWasm/cw-plus/tree/main/contracts/cw1-subkeys"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div className="flex items-center">
+              CW1 Subkeys <FaGithub size={24} className="ml-2" />
+            </div>
+          </a>{" "}
+        </div>
         <p className="mb-3">
           CW1 Subkeys is initially proposed in Cosmos forum in Jun 2019 to be
           added to the Cosmos Hub as a module. You can check out from this{" "}

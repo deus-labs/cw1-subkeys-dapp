@@ -58,7 +58,7 @@ const SendTokens = (): JSX.Element => {
       />
       <TextInput
         type="number"
-        placeholder="Juno amount"
+        placeholder="ujuno amount"
         value={amountToSend}
         onChange={(e) => setAmountToSend(e.target.value)}
         label="Amount to send"
