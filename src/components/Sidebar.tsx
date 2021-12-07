@@ -24,7 +24,7 @@ const Sidebar = ({
   setNetwork,
 }: SidebarProps): JSX.Element => {
   const { initialized } = useWallet()
-  const keplr = useKeplr()
+  const keplr = useKeplr(network)
   const location = useLocation()
 
   const disconnect = () => {

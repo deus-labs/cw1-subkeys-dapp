@@ -13,7 +13,7 @@ export async function createClient(
   return SigningCosmWasmClient.connectWithSigner(config.rpcUrl, signer)
 }
 
-export function useKeplr() {
+export function useKeplr(network: string) {
   const { clear, init, initialized } = useWallet()
   const history = useHistory()
   const [initializing, setInitializing] = useState(false)
@@ -61,10 +61,10 @@ export function useKeplr() {
   useEffect(() => {
     if (!initialized) return
 
-    history.push(instantiatePath)
+    history.push(`${network}/${instantiatePath}`)
 
     setInitializing(false)
-  }, [initialized, history])
+  }, [initialized, history, network])
 
   return {
     connect,
