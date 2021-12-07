@@ -61,7 +61,7 @@ export function useKeplr(network: string) {
   useEffect(() => {
     if (!initialized) return
 
-    history.push(`${network}/${instantiatePath}`)
+    history.replace(`/${network}/${instantiatePath}`)
 
     setInitializing(false)
   }, [initialized, history, network])
