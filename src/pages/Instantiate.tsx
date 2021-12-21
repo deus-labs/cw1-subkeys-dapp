@@ -7,12 +7,9 @@ import PrettyPrint from "src/components/PrettyPrint"
 import Checkbox from "src/components/Checkbox"
 import Button from "src/components/Button"
 import TransactionHash from "src/components/TransactionHash"
-import { useWallet } from "src/services/wallet"
 
 const Instantiate = (): JSX.Element => {
   const contract = useContracts().cw1Subkeys
-  const wallet = useWallet()
-  console.log(wallet.network)
 
   const [input, setInput] = useState<string>("")
   const [codeId, setCodeId] = useState<string>("")

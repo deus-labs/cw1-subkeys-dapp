@@ -3,22 +3,21 @@ import {
   instantiatePath,
   executePath,
   queryPath,
-  // contractPath,
+  contractPath,
 } from "src/routes"
 import { useKeplr } from "src/services/keplr"
 import { useWallet } from "src/services/wallet"
 import { Link } from "react-router-dom"
 import Navbar from "./Navbar"
-import { FaPlay, FaMicrochip, FaSearch /* FaBook */ } from "react-icons/fa"
+import { FaPlay, FaMicrochip, FaSearch, FaInfoCircle } from "react-icons/fa"
 import { useLocation } from "react-router-dom"
 import Dropdown from "./Dropdown"
+import { formatRoute } from "src/utils"
 interface SidebarProps {
   content: JSX.Element
 }
 
-const Sidebar = ({
-  content,
-}: SidebarProps): JSX.Element => {
+const Sidebar = ({ content }: SidebarProps): JSX.Element => {
   const { initialized, network, setNetwork } = useWallet()
   const keplr = useKeplr()
   const location = useLocation()
@@ -36,6 +35,10 @@ const Sidebar = ({
     else connect()
   }
 
+  const networkOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setNetwork(e.target.value)
+  }
+
   return (
     <div className="shadow bg-deus-dark drawer drawer-mobile h-full w-screen">
       <input id="sidebar" type="checkbox" className="drawer-toggle" />
@@ -46,15 +49,15 @@ const Sidebar = ({
       <div className="drawer-side">
         <label htmlFor="sidebar" className="drawer-overlay"></label>
         <ul className="menu p-4 overflow-y-auto w-80 bg-deus-gray text-deus-text">
-          {/* <li>
+          <li>
             <Link
               className="capitalize font-bold text-xl"
-              to={`/${contractPath}`}
+              to={`/${network}/${formatRoute(contractPath)}`}
             >
-              <FaBook className="mr-4" />
+              <FaInfoCircle className="mr-4" />
               {contractPath}
             </Link>
-          </li> */}
+          </li>
           <li className="mb-2">
             <Link
               className="capitalize font-bold text-xl"
@@ -103,11 +106,7 @@ const Sidebar = ({
           <li className="h-full justify-end pb-4">
             <Dropdown
               value={network}
-              onChange={(e) => {
-                disconnect()
-                setNetwork(e.target.value)
-                // setTimeout(connect, 1000);
-              }}
+              onChange={networkOnChange}
               options={["Juno Mainnet", "Juno Uni Testnet"]}
               label="Select network"
               className="mb-3"
@@ -144,7 +143,8 @@ const Sidebar = ({
             <button
               onClick={buttonOnClick}
               className={`btn bg-gradient-to-r from-deus-pink to-deus-purple
-                hover:opacity-80 mx-5 capitalize text-xl ${keplr.initializing ? "loading" : ""
+                hover:opacity-80 mx-5 capitalize text-xl ${
+                  keplr.initializing ? "loading" : ""
                 }`}
             >
               {keplr.initializing

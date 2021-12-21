@@ -4,22 +4,21 @@ import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate"
 import { getConfig, keplrConfig } from "src/config"
 import { useWallet } from "./wallet"
 import { errorToast } from "src/utils"
-import { instantiatePath } from "src/routes"
-import { useHistory } from "react-router"
 
 export async function createClient(
   signer: OfflineSigner,
   network: string
 ): Promise<SigningCosmWasmClient> {
-  return SigningCosmWasmClient.connectWithSigner(getConfig(network).rpcUrl, signer)
+  return SigningCosmWasmClient.connectWithSigner(
+    getConfig(network).rpcUrl,
+    signer
+  )
 }
 
 export function useKeplr() {
   const { clear, init, initialized, network } = useWallet()
-  const history = useHistory()
   const [initializing, setInitializing] = useState(false)
   const config = getConfig(network)
-  console.log(config)
 
   const disconnect = () => {
     localStorage.clear()
@@ -53,7 +52,7 @@ export function useKeplr() {
         setInitializing(false)
         errorToast(err.message)
       })
-  }, [init])
+  }, [])
 
   useEffect(() => {
     const item = localStorage.getItem("wallet_address")
@@ -64,10 +63,8 @@ export function useKeplr() {
   useEffect(() => {
     if (!initialized) return
 
-    history.replace(`/${network}/${instantiatePath}`)
-
     setInitializing(false)
-  }, [initialized, history, network])
+  }, [initialized])
 
   return {
     connect,

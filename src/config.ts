@@ -54,9 +54,10 @@ export interface KeplrConfig {
 
 export const junoMainnetConfig: AppConfig = {
   chainId: "juno-1",
-  chainName: "Juno Mainnet",
+  chainName: "Juno",
   addressPrefix: "juno",
   rpcUrl: "https://rpc.juno-1.deuslabs.fi",
+  // httpUrl: "https://rpc.juno-1.deuslabs.fi",
   feeToken: "ujuno",
   stakingToken: "ujuno",
   coinMap: {
@@ -138,7 +139,7 @@ export const keplrConfig = (config: AppConfig): KeplrConfig => ({
 
 export const networkConfig = {
   "juno-mainnet": junoMainnetConfig,
-  "juno-uni-testnet": uniConfig
+  "juno-uni-testnet": uniConfig,
 }
 
 export const getConfig = (network: string) => networkConfig[network]

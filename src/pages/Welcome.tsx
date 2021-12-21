@@ -1,6 +1,9 @@
 import { FaArrowLeft, FaGithub } from "react-icons/fa"
+import { useWallet } from "src/services/wallet"
 
 const Welcome = (): JSX.Element => {
+  const { initialized } = useWallet()
+
   return (
     <div className="p-6 bg-deus-black flex flex-col justify-end text-deus-text flex-1">
       <div className="">
@@ -87,26 +90,28 @@ const Welcome = (): JSX.Element => {
         </div>
       </div>
       <div className="flex-1 my-10"></div>
-      <div className="h-full flex-1 flex items-end">
-        <div
-          className="p-3 h-36 border-2 border-deus-text mb-2 rounded-lg flex flex-col justify-between "
-          style={{ width: "fit-content" }}
-        >
-          <div>
-            Connecting the wallet is only supported through the Keplr extension.{" "}
-            <br />
-            You might not be able to use your Ledger to sign transactions for
-            now. <br />
-            We are working on it!
-          </div>
-          <div className="flex item-center text-xl font-bold">
-            <div className="flex items-center justify-center">
-              <FaArrowLeft size={22} className="mr-3" />
+      {!initialized && (
+        <div className="h-full flex-1 flex items-end">
+          <div
+            className="p-3 h-36 border-2 border-deus-text mb-2 rounded-lg flex flex-col justify-between "
+            style={{ width: "fit-content" }}
+          >
+            <div>
+              Connecting the wallet is only supported through the Keplr
+              extension. <br />
+              You might not be able to use your Ledger to sign transactions for
+              now. <br />
+              We are working on it!
             </div>
-            Connect your wallet to explore CW1 Subkeys
+            <div className="flex item-center text-xl font-bold">
+              <div className="flex items-center justify-center">
+                <FaArrowLeft size={22} className="mr-3" />
+              </div>
+              Connect your wallet to explore CW1 Subkeys
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

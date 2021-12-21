@@ -32,8 +32,8 @@ const defaultContext: CosmWasmContextType = {
   refreshBalance: throwNotInitialized,
   getClient: throwNotInitialized,
   getSigner: throwNotInitialized,
-  network: "juno-uni-testnet",
-  setNetwork: throwNotInitialized
+  network: "juno-mainnet",
+  setNetwork: throwNotInitialized,
 }
 
 export const CosmWasmContext =
@@ -42,16 +42,25 @@ export const CosmWasmContext =
 export const useWallet = (): CosmWasmContextType =>
   React.useContext(CosmWasmContext)
 
-export function WalletProvider({ children, network, setNetwork }: any): JSX.Element {
+export function WalletProvider({
+  children,
+  network,
+  setNetwork,
+}: any): JSX.Element {
   const [signer, setSigner] = useState<OfflineSigner>()
   const [client, setClient] = useState<SigningCosmWasmClient>()
   const config = getConfig(network)
 
-  const contextWithInit = { ...defaultContext, init: setSigner }
+  const contextWithInit = {
+    ...defaultContext,
+    init: setSigner,
+    network,
+    setNetwork,
+  }
   const [value, setValue] = useState<CosmWasmContextType>(contextWithInit)
 
   const clear = (): void => {
-    setValue({ ...contextWithInit, network })
+    setValue({ ...contextWithInit })
     setClient(undefined)
     setSigner(undefined)
   }
@@ -74,41 +83,41 @@ export function WalletProvider({ children, network, setNetwork }: any): JSX.Elem
 
   useEffect(() => {
     if (!signer) return
-      ; (async function updateClient(): Promise<void> {
-        try {
-          const client = await createClient(signer, network)
-          setClient(client)
-        } catch (error) {
-          console.log(error)
-        }
-      })()
-  }, [signer])
+    ;(async function updateClient(): Promise<void> {
+      try {
+        const client = await createClient(signer, network)
+        setClient(client)
+      } catch (error) {
+        console.log(error)
+      }
+    })()
+  }, [signer, network])
 
   useEffect(() => {
     if (!signer || !client) return
 
     const balance: Coin[] = []
 
-      ; (async function updateValue(): Promise<void> {
-        const address = (await signer.getAccounts())[0].address
+    ;(async function updateValue(): Promise<void> {
+      const address = (await signer.getAccounts())[0].address
 
-        await refreshBalance(address, balance)
+      await refreshBalance(address, balance)
 
-        localStorage.setItem("wallet_address", address)
+      localStorage.setItem("wallet_address", address)
 
-        setValue({
-          initialized: true,
-          init: () => { },
-          clear,
-          address,
-          balance,
-          refreshBalance: refreshBalance.bind(null, address, balance),
-          getClient: () => client,
-          getSigner: () => signer,
-          network,
-          setNetwork
-        })
-      })()
+      setValue({
+        initialized: true,
+        init: () => {},
+        clear,
+        address,
+        balance,
+        refreshBalance: refreshBalance.bind(null, address, balance),
+        getClient: () => client,
+        getSigner: () => signer,
+        network,
+        setNetwork,
+      })
+    })()
   }, [client])
 
   useEffect(() => {

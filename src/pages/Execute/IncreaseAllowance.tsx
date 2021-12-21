@@ -41,7 +41,7 @@ const IncreaseAllowance = (): JSX.Element => {
     if (!amount) return errorToast("Enter a valid amount.")
 
     setLoading(true)
-    console.log(expirationTime)
+
     contract
       .increaseAllowance(
         wallet.address,

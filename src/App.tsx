@@ -4,6 +4,7 @@ import { WalletProvider } from "./services/wallet"
 import { ContractsProvider } from "./contracts"
 import PageLayout from "./layout/Page"
 import {
+  contractPath,
   executePath,
   instantiatePath,
   queryPath /* contractPath */,
@@ -16,9 +17,10 @@ import Execute from "./pages/Execute"
 import Query from "./pages/Query"
 import "react-toastify/dist/ReactToastify.css"
 import { useState } from "react"
+import { formatRoute } from "./utils"
 
 const App = (): JSX.Element => {
-  const [network, setNetwork] = useState<string>("juno-uni-testnet")
+  const [network, setNetwork] = useState<string>("juno-mainnet")
 
   return (
     <WalletProvider network={network} setNetwork={setNetwork}>
@@ -26,7 +28,11 @@ const App = (): JSX.Element => {
         <Router basename={process.env.PUBLIC_URL}>
           <PageLayout>
             <Switch>
-              <Route exact path="/" component={Welcome} />
+              <Route
+                exact
+                path={`/${network}/${formatRoute(contractPath)}`}
+                component={Welcome}
+              />
               <Route
                 exact
                 path={`/${network}/${instantiatePath}`}
