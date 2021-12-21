@@ -1,22 +1,24 @@
 import { useCallback, useEffect, useState } from "react"
 import { OfflineSigner } from "@cosmjs/proto-signing"
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate"
-import { config, keplrConfig } from "src/config"
+import { getConfig, keplrConfig } from "src/config"
 import { useWallet } from "./wallet"
 import { errorToast } from "src/utils"
-import { instantiatePath } from "src/routes"
-import { useHistory } from "react-router"
 
 export async function createClient(
-  signer: OfflineSigner
+  signer: OfflineSigner,
+  network: string
 ): Promise<SigningCosmWasmClient> {
-  return SigningCosmWasmClient.connectWithSigner(config.rpcUrl, signer)
+  return SigningCosmWasmClient.connectWithSigner(
+    getConfig(network).rpcUrl,
+    signer
+  )
 }
 
-export function useKeplr(network: string) {
-  const { clear, init, initialized } = useWallet()
-  const history = useHistory()
+export function useKeplr() {
+  const { clear, init, initialized, network } = useWallet()
   const [initializing, setInitializing] = useState(false)
+  const config = getConfig(network)
 
   const disconnect = () => {
     localStorage.clear()
@@ -32,7 +34,7 @@ export function useKeplr(network: string) {
       }
 
       await anyWindow.keplr.enable(config.chainId)
-      await anyWindow.keplr.experimentalSuggestChain(keplrConfig)
+      await anyWindow.keplr.experimentalSuggestChain(keplrConfig(config))
 
       const signer = anyWindow.getOfflineSignerAuto(config.chainId)
       signer.signAmino = signer.signAmino ?? signer.sign
@@ -50,7 +52,7 @@ export function useKeplr(network: string) {
         setInitializing(false)
         errorToast(err.message)
       })
-  }, [init])
+  }, [])
 
   useEffect(() => {
     const item = localStorage.getItem("wallet_address")
@@ -61,10 +63,8 @@ export function useKeplr(network: string) {
   useEffect(() => {
     if (!initialized) return
 
-    history.replace(`/${network}/${instantiatePath}`)
-
     setInitializing(false)
-  }, [initialized, history, network])
+  }, [initialized])
 
   return {
     connect,

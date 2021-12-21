@@ -1,6 +1,6 @@
 import { GasPrice } from "@cosmjs/stargate"
 import { useCallback, useEffect, useState } from "react"
-import { config } from "src/config"
+import { getConfig } from "src/config"
 import { useWallet } from "src/services/wallet"
 import { InstantiateResponse } from "."
 import { CW1Contract, CW1Instance, CW1 as CW1Init } from "./contract"
@@ -22,6 +22,7 @@ export interface UseCW1ContractProps {
 
 export function useCW1Contract(): UseCW1ContractProps {
   const wallet = useWallet()
+  const config = getConfig(wallet.network)
 
   const [address, setAddress] = useState<string>(
     localStorage.getItem("contract_address") || ""

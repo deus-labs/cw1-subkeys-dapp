@@ -37,11 +37,11 @@ const IncreaseAllowance = (): JSX.Element => {
       expirationTime = { at_time: expirationValue }
     }
 
-    const amount = convertToNativeCoin(allowanceAmount)
+    const amount = convertToNativeCoin(allowanceAmount, wallet.network)
     if (!amount) return errorToast("Enter a valid amount.")
 
     setLoading(true)
-    console.log(expirationTime)
+
     contract
       .increaseAllowance(
         wallet.address,

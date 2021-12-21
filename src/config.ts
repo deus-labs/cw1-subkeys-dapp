@@ -5,8 +5,8 @@ export interface AppConfig {
   readonly chainName: string
   readonly addressPrefix: string
   readonly rpcUrl: string
-  readonly httpUrl: string
-  readonly faucetUrl: string
+  readonly httpUrl?: string
+  readonly faucetUrl?: string
   readonly feeToken: string
   readonly stakingToken: string
   readonly coinMap: CoinMap
@@ -31,7 +31,7 @@ export interface KeplrConfig {
   readonly chainId: string
   readonly chainName: string
   readonly rpc: string
-  readonly rest: string
+  readonly rest?: string
   readonly bech32Config: {
     readonly bech32PrefixAccAddr: string
     readonly bech32PrefixAccPub: string
@@ -52,7 +52,26 @@ export interface KeplrConfig {
   readonly coinType: number
 }
 
-export const config: AppConfig = {
+export const junoMainnetConfig: AppConfig = {
+  chainId: "juno-1",
+  chainName: "Juno",
+  addressPrefix: "juno",
+  rpcUrl: "https://rpc.juno-1.deuslabs.fi",
+  // httpUrl: "https://rpc.juno-1.deuslabs.fi",
+  feeToken: "ujuno",
+  stakingToken: "ujuno",
+  coinMap: {
+    ujuno: { denom: "JUNO", fractionalDigits: 6 },
+  },
+  gasPrice: 0.025,
+  fees: {
+    upload: 1500000,
+    init: 500000,
+    exec: 200000,
+  },
+}
+
+export const uniConfig: AppConfig = {
   chainId: "uni",
   chainName: "Uni",
   addressPrefix: "juno",
@@ -72,7 +91,7 @@ export const config: AppConfig = {
   },
 }
 
-export const keplrConfig: KeplrConfig = {
+export const keplrConfig = (config: AppConfig): KeplrConfig => ({
   chainId: config.chainId,
   chainName: config.chainName,
   rpc: config.rpcUrl,
@@ -116,4 +135,11 @@ export const keplrConfig: KeplrConfig = {
   },
   bip44: { coinType: 118 },
   coinType: 118,
+})
+
+export const networkConfig = {
+  "juno-mainnet": junoMainnetConfig,
+  "juno-uni-testnet": uniConfig,
 }
+
+export const getConfig = (network: string) => networkConfig[network]

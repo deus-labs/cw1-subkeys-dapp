@@ -20,7 +20,7 @@ const SendTokens = (): JSX.Element => {
     if (!contract) return errorToast("Contract is not initialized.")
     if (addressToSend === "") return errorToast("Enter an address to send.")
 
-    const amount = convertToNativeCoin(amountToSend)
+    const amount = convertToNativeCoin(amountToSend, wallet.network)
     if (!amount) return errorToast("Enter a valid amount.")
 
     const message: SendMsg = {

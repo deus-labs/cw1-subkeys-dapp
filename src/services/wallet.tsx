@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useEffect, useState } from "react"
-import { config } from "../config"
+import { getConfig } from "../config"
 import { createClient } from "./keplr"
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate"
 import { Coin } from "@cosmjs/stargate"
@@ -15,6 +15,8 @@ interface CosmWasmContextType {
   readonly refreshBalance: () => Promise<void>
   readonly getClient: () => SigningCosmWasmClient
   readonly getSigner: () => OfflineSigner
+  readonly network: string
+  readonly setNetwork: (network: string) => void
 }
 
 function throwNotInitialized(): any {
@@ -30,6 +32,8 @@ const defaultContext: CosmWasmContextType = {
   refreshBalance: throwNotInitialized,
   getClient: throwNotInitialized,
   getSigner: throwNotInitialized,
+  network: "juno-mainnet",
+  setNetwork: throwNotInitialized,
 }
 
 export const CosmWasmContext =
@@ -38,11 +42,21 @@ export const CosmWasmContext =
 export const useWallet = (): CosmWasmContextType =>
   React.useContext(CosmWasmContext)
 
-export function WalletProvider({ children }: any): JSX.Element {
+export function WalletProvider({
+  children,
+  network,
+  setNetwork,
+}: any): JSX.Element {
   const [signer, setSigner] = useState<OfflineSigner>()
   const [client, setClient] = useState<SigningCosmWasmClient>()
+  const config = getConfig(network)
 
-  const contextWithInit = { ...defaultContext, init: setSigner }
+  const contextWithInit = {
+    ...defaultContext,
+    init: setSigner,
+    network,
+    setNetwork,
+  }
   const [value, setValue] = useState<CosmWasmContextType>(contextWithInit)
 
   const clear = (): void => {
@@ -71,13 +85,13 @@ export function WalletProvider({ children }: any): JSX.Element {
     if (!signer) return
     ;(async function updateClient(): Promise<void> {
       try {
-        const client = await createClient(signer)
+        const client = await createClient(signer, network)
         setClient(client)
       } catch (error) {
         console.log(error)
       }
     })()
-  }, [signer])
+  }, [signer, network])
 
   useEffect(() => {
     if (!signer || !client) return
@@ -100,9 +114,15 @@ export function WalletProvider({ children }: any): JSX.Element {
         refreshBalance: refreshBalance.bind(null, address, balance),
         getClient: () => client,
         getSigner: () => signer,
+        network,
+        setNetwork,
       })
     })()
   }, [client])
+
+  useEffect(() => {
+    setValue({ ...value, network })
+  }, [network])
 
   return (
     <CosmWasmContext.Provider value={value}>
