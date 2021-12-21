@@ -14,17 +14,13 @@ import { useLocation } from "react-router-dom"
 import Dropdown from "./Dropdown"
 interface SidebarProps {
   content: JSX.Element
-  network: string
-  setNetwork: (network: string) => void
 }
 
 const Sidebar = ({
   content,
-  network,
-  setNetwork,
 }: SidebarProps): JSX.Element => {
-  const { initialized } = useWallet()
-  const keplr = useKeplr(network)
+  const { initialized, network, setNetwork } = useWallet()
+  const keplr = useKeplr()
   const location = useLocation()
 
   const disconnect = () => {
@@ -107,8 +103,12 @@ const Sidebar = ({
           <li className="h-full justify-end pb-4">
             <Dropdown
               value={network}
-              onChange={(e) => setNetwork(e.target.value)}
-              options={["Juno Uni Testnet"]}
+              onChange={(e) => {
+                disconnect()
+                setNetwork(e.target.value)
+                // setTimeout(connect, 1000);
+              }}
+              options={["Juno Mainnet", "Juno Uni Testnet"]}
               label="Select network"
               className="mb-3"
               isColumn
@@ -144,8 +144,7 @@ const Sidebar = ({
             <button
               onClick={buttonOnClick}
               className={`btn bg-gradient-to-r from-deus-pink to-deus-purple
-                hover:opacity-80 mx-5 capitalize text-xl ${
-                  keplr.initializing ? "loading" : ""
+                hover:opacity-80 mx-5 capitalize text-xl ${keplr.initializing ? "loading" : ""
                 }`}
             >
               {keplr.initializing

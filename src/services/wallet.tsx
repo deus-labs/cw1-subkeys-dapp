@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useEffect, useState } from "react"
-import { config } from "../config"
+import { getConfig } from "../config"
 import { createClient } from "./keplr"
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate"
 import { Coin } from "@cosmjs/stargate"
@@ -15,6 +15,8 @@ interface CosmWasmContextType {
   readonly refreshBalance: () => Promise<void>
   readonly getClient: () => SigningCosmWasmClient
   readonly getSigner: () => OfflineSigner
+  readonly network: string
+  readonly setNetwork: (network: string) => void
 }
 
 function throwNotInitialized(): any {
@@ -30,6 +32,8 @@ const defaultContext: CosmWasmContextType = {
   refreshBalance: throwNotInitialized,
   getClient: throwNotInitialized,
   getSigner: throwNotInitialized,
+  network: "juno-uni-testnet",
+  setNetwork: throwNotInitialized
 }
 
 export const CosmWasmContext =
@@ -38,15 +42,16 @@ export const CosmWasmContext =
 export const useWallet = (): CosmWasmContextType =>
   React.useContext(CosmWasmContext)
 
-export function WalletProvider({ children }: any): JSX.Element {
+export function WalletProvider({ children, network, setNetwork }: any): JSX.Element {
   const [signer, setSigner] = useState<OfflineSigner>()
   const [client, setClient] = useState<SigningCosmWasmClient>()
+  const config = getConfig(network)
 
   const contextWithInit = { ...defaultContext, init: setSigner }
   const [value, setValue] = useState<CosmWasmContextType>(contextWithInit)
 
   const clear = (): void => {
-    setValue({ ...contextWithInit })
+    setValue({ ...contextWithInit, network })
     setClient(undefined)
     setSigner(undefined)
   }
@@ -69,14 +74,14 @@ export function WalletProvider({ children }: any): JSX.Element {
 
   useEffect(() => {
     if (!signer) return
-    ;(async function updateClient(): Promise<void> {
-      try {
-        const client = await createClient(signer)
-        setClient(client)
-      } catch (error) {
-        console.log(error)
-      }
-    })()
+      ; (async function updateClient(): Promise<void> {
+        try {
+          const client = await createClient(signer, network)
+          setClient(client)
+        } catch (error) {
+          console.log(error)
+        }
+      })()
   }, [signer])
 
   useEffect(() => {
@@ -84,25 +89,31 @@ export function WalletProvider({ children }: any): JSX.Element {
 
     const balance: Coin[] = []
 
-    ;(async function updateValue(): Promise<void> {
-      const address = (await signer.getAccounts())[0].address
+      ; (async function updateValue(): Promise<void> {
+        const address = (await signer.getAccounts())[0].address
 
-      await refreshBalance(address, balance)
+        await refreshBalance(address, balance)
 
-      localStorage.setItem("wallet_address", address)
+        localStorage.setItem("wallet_address", address)
 
-      setValue({
-        initialized: true,
-        init: () => {},
-        clear,
-        address,
-        balance,
-        refreshBalance: refreshBalance.bind(null, address, balance),
-        getClient: () => client,
-        getSigner: () => signer,
-      })
-    })()
+        setValue({
+          initialized: true,
+          init: () => { },
+          clear,
+          address,
+          balance,
+          refreshBalance: refreshBalance.bind(null, address, balance),
+          getClient: () => client,
+          getSigner: () => signer,
+          network,
+          setNetwork
+        })
+      })()
   }, [client])
+
+  useEffect(() => {
+    setValue({ ...value, network })
+  }, [network])
 
   return (
     <CosmWasmContext.Provider value={value}>

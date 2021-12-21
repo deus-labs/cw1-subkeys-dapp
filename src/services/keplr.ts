@@ -1,22 +1,25 @@
 import { useCallback, useEffect, useState } from "react"
 import { OfflineSigner } from "@cosmjs/proto-signing"
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate"
-import { config, keplrConfig } from "src/config"
+import { getConfig, keplrConfig } from "src/config"
 import { useWallet } from "./wallet"
 import { errorToast } from "src/utils"
 import { instantiatePath } from "src/routes"
 import { useHistory } from "react-router"
 
 export async function createClient(
-  signer: OfflineSigner
+  signer: OfflineSigner,
+  network: string
 ): Promise<SigningCosmWasmClient> {
-  return SigningCosmWasmClient.connectWithSigner(config.rpcUrl, signer)
+  return SigningCosmWasmClient.connectWithSigner(getConfig(network).rpcUrl, signer)
 }
 
-export function useKeplr(network: string) {
-  const { clear, init, initialized } = useWallet()
+export function useKeplr() {
+  const { clear, init, initialized, network } = useWallet()
   const history = useHistory()
   const [initializing, setInitializing] = useState(false)
+  const config = getConfig(network)
+  console.log(config)
 
   const disconnect = () => {
     localStorage.clear()
@@ -32,7 +35,7 @@ export function useKeplr(network: string) {
       }
 
       await anyWindow.keplr.enable(config.chainId)
-      await anyWindow.keplr.experimentalSuggestChain(keplrConfig)
+      await anyWindow.keplr.experimentalSuggestChain(keplrConfig(config))
 
       const signer = anyWindow.getOfflineSignerAuto(config.chainId)
       signer.signAmino = signer.signAmino ?? signer.sign

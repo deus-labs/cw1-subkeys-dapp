@@ -54,7 +54,7 @@ const AllAllowances = (): JSX.Element => {
     if (!contract) return errorToast("Contract is not initialized.")
     if (addressToSend === "") return errorToast("Enter an adress.")
 
-    const amount = convertToNativeCoin(amountToSend)
+    const amount = convertToNativeCoin(amountToSend, wallet.network)
     if (!amount) return errorToast("Enter a valid amount.")
 
     const message: SendMsg = {
@@ -83,7 +83,7 @@ const AllAllowances = (): JSX.Element => {
   const checkDelegateMsg = () => {
     if (srcValidatorAddress === "") return errorToast("Enter an adress.")
 
-    const amount = convertToNativeCoin(amountToSend)
+    const amount = convertToNativeCoin(amountToSend, wallet.network)
     if (!amount) return errorToast("Enter a valid amount.")
 
     const message: DelegateMsg = {
@@ -112,7 +112,7 @@ const AllAllowances = (): JSX.Element => {
     if (srcValidatorAddress === "") return errorToast("Enter an adress.")
     if (amountToSend === "") return errorToast("Enter an amount.")
 
-    const amount = convertToNativeCoin(amountToSend)
+    const amount = convertToNativeCoin(amountToSend, wallet.network)
     if (!amount) return errorToast("Enter a valid amount.")
 
     const message: UndelegateMsg = {
@@ -142,7 +142,7 @@ const AllAllowances = (): JSX.Element => {
     if (dstValidatorAddress === "")
       return errorToast("Enter a destination adress.")
 
-    const amount = convertToNativeCoin(amountToSend)
+    const amount = convertToNativeCoin(amountToSend, wallet.network)
     if (!amount) return errorToast("Enter a valid amount.")
 
     const message: RedelegateMsg = {
@@ -192,9 +192,8 @@ const AllAllowances = (): JSX.Element => {
         <TextInput
           value={srcValidatorAddress}
           onChange={(e) => setSrcValidatorAddress(e.target.value)}
-          placeholder={`${
-            option === "delegate" ? "Validator" : "Source validator"
-          } address`}
+          placeholder={`${option === "delegate" ? "Validator" : "Source validator"
+            } address`}
           label={`Validator address to ${option}`}
         />
       )}

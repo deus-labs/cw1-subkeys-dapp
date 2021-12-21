@@ -140,3 +140,5 @@ export const networkConfig = {
   "juno-mainnet": junoMainnetConfig,
   "juno-uni-testnet": uniConfig
 }
+
+export const getConfig = (network: string) => networkConfig[network]

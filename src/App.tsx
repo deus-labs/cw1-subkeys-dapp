@@ -21,10 +21,10 @@ const App = (): JSX.Element => {
   const [network, setNetwork] = useState<string>("juno-uni-testnet")
 
   return (
-    <WalletProvider>
+    <WalletProvider network={network} setNetwork={setNetwork}>
       <ContractsProvider>
         <Router basename={process.env.PUBLIC_URL}>
-          <PageLayout network={network} setNetwork={setNetwork}>
+          <PageLayout>
             <Switch>
               <Route exact path="/" component={Welcome} />
               <Route
