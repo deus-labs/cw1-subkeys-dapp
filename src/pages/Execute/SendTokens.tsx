@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useWallet } from "src/services/wallet"
 import { useContracts } from "src/contracts"
 import { convertToNativeCoin, errorToast } from "src/utils"
-import { SendMsg } from "src/contracts/cw1-subkeys"
+import { AllowanceInfo, SendMsg } from "src/contracts/cw1-subkeys"
 import TextInput from "src/components/TextInput"
 import Button from "src/components/Button"
 import TransactionHash from "src/components/TransactionHash"
@@ -15,6 +15,7 @@ const SendTokens = (): JSX.Element => {
   const [amountToSend, setAmountToSend] = useState<string>("")
   const [txHash, setTxHash] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
+  const [allowance, setAllowance] = useState<AllowanceInfo>()
 
   const execute = () => {
     if (!contract) return errorToast("Contract is not initialized.")
@@ -47,8 +48,27 @@ const SendTokens = (): JSX.Element => {
       })
   }
 
+  useEffect(() => {
+    if (!wallet.initialized || !contract) return
+    contract
+      .allowance(wallet.address)
+      .then((data) => setAllowance(data))
+      .catch((err) => errorToast(err.message))
+  }, [wallet.initialized, contract]);
+
   return (
     <div className="form-control items-center">
+      {wallet.initialized &&
+        <div>
+          <div className="text-l">
+            Wallet balance: {wallet.balance[0].amount + wallet.balance[0].denom}
+          </div>
+          {allowance && <div className="text-l">
+            Allowance: {allowance && allowance.balance.length ? 
+            allowance.balance[0].amount + allowance.balance[0].denom : "0"}
+          </div>}
+        </div>
+      }
       <TextInput
         placeholder="Address"
         value={addressToSend}
@@ -64,6 +84,11 @@ const SendTokens = (): JSX.Element => {
         label="Amount to send"
         className="mb-4"
       />
+      {wallet.initialized && allowance && allowance.balance.length > 0 && <Button
+        onClick={() => setAmountToSend(allowance.balance[0].amount)}
+        text="max"
+        className="btn-primary btn-sm"
+      />}
       <br />
       <Button
         onClick={execute}
