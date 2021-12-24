@@ -4,9 +4,9 @@
   "private": false,
   "homepage": "https://subkeys.deuslabs.fi",
   "dependencies": {
-    "@cosmjs/cosmwasm-stargate": "^0.26.4",
-    "@cosmjs/proto-signing": "^0.26.4",
-    "@cosmjs/stargate": "^0.26.4",
+    "@cosmjs/cosmwasm-stargate": "^0.27.0-rc2",
+    "@cosmjs/proto-signing": "^0.27.0-rc2",
+    "@cosmjs/stargate": "^0.27.0-rc2",
     "@craco/craco": "^6.4.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

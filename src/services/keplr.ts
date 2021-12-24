@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { OfflineSigner } from "@cosmjs/proto-signing"
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate"
-import { getConfig, keplrConfig } from "src/config"
+import { getConfig, keplrConfig, AppConfig } from "src/config"
 import { useWallet } from "./wallet"
 import { errorToast } from "src/utils"
 
@@ -15,6 +15,23 @@ export async function createClient(
   )
 }
 
+export async function loadKeplrWallet(
+  config: AppConfig
+): Promise<OfflineSigner> {
+  const anyWindow: any = window
+  if (!anyWindow.getOfflineSigner) {
+    throw new Error("Keplr extension is not available")
+  }
+
+  await anyWindow.keplr.enable(config.chainId)
+  await anyWindow.keplr.experimentalSuggestChain(keplrConfig(config))
+
+  const signer = await anyWindow.getOfflineSignerAuto(config.chainId)
+  signer.signAmino = signer.signAmino ?? signer.sign
+
+  return Promise.resolve(signer)
+}
+
 export function useKeplr() {
   const { clear, init, initialized, network } = useWallet()
   const [initializing, setInitializing] = useState(false)
@@ -25,26 +42,10 @@ export function useKeplr() {
     clear()
   }
 
-  const connect = useCallback(() => {
-    const loadKeplrWallet = async (): Promise<OfflineSigner> => {
-      const anyWindow: any = window
-      if (!anyWindow.getOfflineSigner) {
-        setInitializing(false)
-        throw new Error("Keplr extension is not available")
-      }
-
-      await anyWindow.keplr.enable(config.chainId)
-      await anyWindow.keplr.experimentalSuggestChain(keplrConfig(config))
-
-      const signer = anyWindow.getOfflineSignerAuto(config.chainId)
-      signer.signAmino = signer.signAmino ?? signer.sign
-
-      return Promise.resolve(signer)
-    }
-
+  const connect = () => {
     setInitializing(true)
 
-    loadKeplrWallet()
+    loadKeplrWallet(config)
       .then((signer) => {
         init(signer)
       })
@@ -52,13 +53,13 @@ export function useKeplr() {
         setInitializing(false)
         errorToast(err.message)
       })
-  }, [])
+  }
 
-  useEffect(() => {
-    const item = localStorage.getItem("wallet_address")
+  // useEffect(() => {
+  //   const item = localStorage.getItem("wallet_address")
 
-    if (item) connect()
-  }, [initialized, connect])
+  //   if (item) connect()
+  // }, [initialized, connect])
 
   useEffect(() => {
     if (!initialized) return

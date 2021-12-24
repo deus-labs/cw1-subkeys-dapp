@@ -15,6 +15,7 @@ interface CosmWasmContextType {
   readonly refreshBalance: () => Promise<void>
   readonly getClient: () => SigningCosmWasmClient
   readonly getSigner: () => OfflineSigner
+  readonly updateSigner: (singer: OfflineSigner) => void
   readonly network: string
   readonly setNetwork: (network: string) => void
 }
@@ -32,6 +33,7 @@ const defaultContext: CosmWasmContextType = {
   refreshBalance: throwNotInitialized,
   getClient: throwNotInitialized,
   getSigner: throwNotInitialized,
+  updateSigner: throwNotInitialized,
   network: "juno-mainnet",
   setNetwork: throwNotInitialized,
 }
@@ -81,6 +83,10 @@ export function WalletProvider({
     setValue({ ...value, balance })
   }
 
+  const updateSigner = (signer: OfflineSigner) => {
+    setSigner(signer)
+  }
+
   useEffect(() => {
     if (!signer) return
     ;(async function updateClient(): Promise<void> {
@@ -91,7 +97,7 @@ export function WalletProvider({
         console.log(error)
       }
     })()
-  }, [signer, network])
+  }, [signer])
 
   useEffect(() => {
     if (!signer || !client) return
@@ -114,6 +120,7 @@ export function WalletProvider({
         refreshBalance: refreshBalance.bind(null, address, balance),
         getClient: () => client,
         getSigner: () => signer,
+        updateSigner,
         network,
         setNetwork,
       })

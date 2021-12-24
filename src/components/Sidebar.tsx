@@ -5,7 +5,8 @@ import {
   queryPath,
   contractPath,
 } from "src/routes"
-import { useKeplr } from "src/services/keplr"
+import { getConfig } from "src/config"
+import { useKeplr, loadKeplrWallet } from "src/services/keplr"
 import { useWallet } from "src/services/wallet"
 import { Link } from "react-router-dom"
 import Navbar from "./Navbar"
@@ -18,7 +19,7 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ content }: SidebarProps): JSX.Element => {
-  const { initialized, network, setNetwork } = useWallet()
+  const { initialized, network, setNetwork, updateSigner } = useWallet()
   const keplr = useKeplr()
   const location = useLocation()
 
@@ -35,8 +36,12 @@ const Sidebar = ({ content }: SidebarProps): JSX.Element => {
     else connect()
   }
 
-  const networkOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const networkOnChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     setNetwork(e.target.value)
+    if (initialized) {
+      const signer = await loadKeplrWallet(getConfig(e.target.value))
+      updateSigner(signer)
+    }
   }
 
   return (
