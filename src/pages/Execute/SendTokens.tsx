@@ -62,7 +62,7 @@ const SendTokens = (): JSX.Element => {
     <div className="form-control items-center">
       <div className="h-14">
         {wallet.initialized && (
-          <div>
+          <div className="text-center">
             <div className="text-lg">
               Wallet balance:{" "}
               {wallet.balance[0].amount + wallet.balance[0].denom}
