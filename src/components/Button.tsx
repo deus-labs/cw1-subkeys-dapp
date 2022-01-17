@@ -5,6 +5,8 @@ interface ButtonProps {
   className?: string
   loading?: boolean
   text: string
+  width?: string
+  textSize?: string
 }
 
 const Button = ({
@@ -12,19 +14,21 @@ const Button = ({
   className = "",
   loading = false,
   text,
+  width = "w-3/6",
+  textSize = "text-lg"
 }: ButtonProps): JSX.Element => {
   const wallet = useWallet()
 
   return (
     <div
       data-tip="Connect wallet to continue"
-      className={`${!wallet.initialized ? "tooltip" : ""} w-3/6`}
+      className={`${!wallet.initialized ? "tooltip" : ""} ${width}`}
     >
       <button
         onClick={onClick}
         className={`btn ${
           loading ? "loading" : ""
-        } capitalize ${className} w-full text-lg`}
+        } capitalize ${className} w-full ${textSize}`}
         disabled={!wallet.initialized}
         style={{ color: "white" }}
       >
