@@ -49,46 +49,66 @@ const SendTokens = (): JSX.Element => {
   }
 
   useEffect(() => {
-    if (!wallet.initialized || !contract) return
-    contract
-      .allowance(wallet.address)
-      .then((data) => setAllowance(data))
-      .catch((err) => errorToast(err.message))
+    if (!wallet.initialized || !contract || addressToSend.length != 43)
+      setAllowance(undefined)
+    else
+      contract
+        .allowance(addressToSend)
+        .then((data) => setAllowance(data))
+        .catch(() => setAllowance(undefined))
   }, [wallet.initialized, contract]);
 
   return (
     <div className="form-control items-center">
-      {wallet.initialized &&
-        <div>
-          <div className="text-l">
-            Wallet balance: {wallet.balance[0].amount + wallet.balance[0].denom}
+      <div className="h-14">
+        {wallet.initialized &&
+          <div>
+            <div className="text-lg">
+              Wallet balance: {wallet.balance[0].amount + wallet.balance[0].denom}
+            </div>
+            {allowance && <div className="text-lg">
+              Allowance: {allowance && allowance.balance.length ?
+                allowance.balance[0].amount + allowance.balance[0].denom : "0"}
+            </div>}
           </div>
-          {allowance && <div className="text-l">
-            Allowance: {allowance && allowance.balance.length ? 
-            allowance.balance[0].amount + allowance.balance[0].denom : "0"}
-          </div>}
-        </div>
-      }
-      <TextInput
-        placeholder="Address"
-        value={addressToSend}
-        onChange={(e) => setAddressToSend(e.target.value)}
-        label="Address to send"
-        className="mb-4"
-      />
-      <TextInput
-        type="number"
-        placeholder="ujuno amount"
-        value={amountToSend}
-        onChange={(e) => setAmountToSend(e.target.value)}
-        label="Amount to send"
-        className="mb-4"
-      />
-      {wallet.initialized && allowance && allowance.balance.length > 0 && <Button
-        onClick={() => setAmountToSend(allowance.balance[0].amount)}
-        text="max"
-        className="btn-primary btn-sm"
-      />}
+        }</div>
+      <div className="flex flex-row mt-4 mx-auto w-3/5 justify-start">
+        <TextInput
+          placeholder="Address"
+          value={addressToSend}
+          onChange={(e) => setAddressToSend(e.target.value)}
+          label="Address to send"
+          className="mb-4 ml-1"
+          width="w-7/12"
+        />
+        {wallet.initialized &&
+          <Button
+            onClick={() => setAddressToSend(wallet.address)}
+            text="my wallet"
+            className="btn-primary ml-4"
+            width="w-1/6"
+            textSize="text-xs"
+          />}
+      </div>
+      <div className="flex flex-row mt-4 w-3/5 justify-start">
+        <TextInput
+          type="number"
+          placeholder="ujuno amount"
+          value={amountToSend}
+          onChange={(e) => setAmountToSend(e.target.value)}
+          label="Amount to send"
+          className="mb-4 ml-1"
+          width="w-7/12"
+        />
+        {wallet.initialized && allowance && allowance.balance.length > 0 &&
+          <Button
+            onClick={() => setAmountToSend(allowance.balance[0].amount)}
+            text="max"
+            className="btn-primary ml-4"
+            width="w-1/6"
+            textSize="text-xs"
+          />}
+      </div>
       <br />
       <Button
         onClick={execute}
