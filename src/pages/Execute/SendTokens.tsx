@@ -97,6 +97,7 @@ const SendTokens = (): JSX.Element => {
           />
         )}
       </div>
+      <div className="flex flex-row mt-4 mx-auto w-3/5 justify-start">
       <TextInput
         type="number"
         placeholder="ujuno amount"
@@ -115,6 +116,7 @@ const SendTokens = (): JSX.Element => {
           textSize="text-xs"
         />
       )}
+      </div>
       <br />
       <Button
         onClick={execute}
