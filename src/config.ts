@@ -63,7 +63,7 @@ export const junoMainnetConfig: AppConfig = {
   coinMap: {
     ujuno: { denom: "JUNO", fractionalDigits: 6 },
   },
-  gasPrice: 0.025,
+  gasPrice: 0.0025,
   fees: {
     upload: 1500000,
     init: 500000,
@@ -83,7 +83,7 @@ export const uniConfig: AppConfig = {
   coinMap: {
     ujunox: { denom: "JUNOX", fractionalDigits: 6 },
   },
-  gasPrice: 0.025,
+  gasPrice: 0.0025,
   fees: {
     upload: 1500000,
     init: 500000,
